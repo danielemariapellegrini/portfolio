@@ -1,0 +1,539 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Daniele Pellegrini, award-winning senior sound designer and creative producer in Munich. Strategy-led sonic identities for global brands.">
+<title>Daniele Pellegrini</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&family=Hanken+Grotesk:wght@400..700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* Layout: pure black stage, light extended capitals, a five-column header grid, a numbered work index with a cursor-following preview, and small uppercase captions in parentheses. */
+:root {
+  --bg: #000000;
+  --fg: #e6e6e6;
+  --muted: #8d8d8d;
+  --line: #2b2b2b;
+  --accent: #f63b1a;
+  --display: 'Archivo', 'Helvetica Neue', Arial, sans-serif;
+  --body: 'Hanken Grotesk', 'Helvetica Neue', Arial, sans-serif;
+  --mono: 'DM Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
+  --gutter: 16px;
+  color-scheme: dark;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: 5rem; }
+body { margin: 0; background: var(--bg); color: var(--fg); font-family: var(--body); font-size: 1.0625rem; font-weight: 400; font-stretch: 100%; line-height: 1.5; -webkit-font-smoothing: antialiased; }
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 30; background: var(--bg); }
+a { color: inherit; text-decoration: none; }
+p { margin: 0; }
+button { font-family: inherit; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+img { display: block; max-width: 100%; height: auto; }
+
+.wrap { width: min(100%, 1560px); margin-inline: auto; padding-left: max(var(--gutter), env(safe-area-inset-left, 0px)); padding-right: max(var(--gutter), env(safe-area-inset-right, 0px)); }
+section { padding-block: clamp(3.5rem, 9vw, 8rem); }
+
+/* Type roles */
+.cap { font-family: var(--mono); font-size: 0.8rem; line-height: 1.35; letter-spacing: 0; font-weight: 400; }
+.filter, .afilter, .copy, .lb-x { font-family: var(--mono); }
+.cap.red { color: var(--accent); }
+.cap.dim { color: var(--muted); }
+.disp { font-weight: 800; font-stretch: 90%; letter-spacing: -0.045em; line-height: 0.9; margin: 0; }
+.grid5 { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); column-gap: var(--gutter); }
+
+/* Header */
+.top { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20; background: var(--bg); }
+.top .grid5 { align-items: center; min-height: 4rem; }
+.mark { font-weight: 800; font-stretch: 90%; font-size: 1.05rem; letter-spacing: -0.03em; line-height: 1.05; }
+.top nav { display: contents; }
+.top nav a { font-weight: 700; font-stretch: 90%; font-size: clamp(1.05rem, 2.6vw, 2.4rem); letter-spacing: -0.04em; line-height: 1; padding-block: 0.5rem; }
+.top nav a:last-child { justify-self: end; }
+.top nav a:hover { color: var(--accent); }
+
+/* Hero */
+.hero { padding-block: clamp(1rem, 3vw, 2rem) clamp(2.5rem, 6vw, 5rem); }
+.hero .grid5 { margin-top: clamp(1.5rem, 5vw, 4rem); }
+.hero .c2 { grid-column: 2 / 4; }
+.hero .c4 { grid-column: 4 / 6; }
+.hero h1 { font-size: clamp(3rem, 20vw, 19rem); margin-top: clamp(2rem, 6vw, 5rem); }
+.hero h1 span { display: block; }
+
+/* Work index */
+.work { padding-top: 0; }
+.work-head { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: 1.2rem 2rem; margin-bottom: clamp(1.5rem, 4vw, 3rem); }
+.work-head h2 { font-size: clamp(3.6rem, 17vw, 16rem); display: flex; align-items: flex-start; gap: 0.15em; }
+.work-head h2 sup { font-size: 0.8rem; font-weight: 400; font-stretch: 100%; letter-spacing: 0.02em; line-height: 1.3; margin-top: 0.6rem; color: var(--muted); }
+.filters { display: flex; flex-wrap: wrap; gap: 0.3rem 1.6rem; padding-bottom: 0.6rem; }
+.filter, .afilter { background: none; border: 0; border-bottom: 1px solid transparent; padding: 0.3rem 0; color: var(--muted); cursor: pointer; font-size: 0.8rem; letter-spacing: 0.02em; }
+.filter:hover, .afilter:hover { color: var(--fg); }
+.filter[aria-pressed="true"], .afilter[aria-pressed="true"] { color: var(--fg); border-bottom-color: var(--accent); }
+.index { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--fg); }
+.item { border-bottom: 1px solid var(--line); }
+.item a { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); column-gap: var(--gutter); align-items: center; padding: clamp(1.1rem, 2.4vw, 2rem) 0.6rem; transition: background 0.15s ease, color 0.15s ease; }
+.item .n { grid-column: 1; align-self: start; padding-top: 0.5rem; }
+.item .t { grid-column: 2 / 5; display: grid; gap: 0.7rem; transition: transform 0.4s cubic-bezier(.2, .8, .2, 1); }
+.item .tt { font-weight: 700; font-stretch: 90%; letter-spacing: -0.04em; font-size: clamp(2rem, 5.4vw, 5.4rem); line-height: 0.92; text-wrap: balance; }
+.item .m { grid-column: 5; display: grid; gap: 0.15rem; justify-items: end; text-align: right; }
+.item .go { margin-top: 0.7rem; }
+.item a:hover .t { transform: translateX(1.2rem); }
+.item a:hover, .item a:focus-visible { background: var(--accent); color: #000; }
+.item a:hover .cap, .item a:focus-visible .cap { color: #000; }
+.item a:focus-visible .t { transform: translateX(1.2rem); }
+.count-note { margin-top: 1.4rem; }
+.lb { position: fixed; inset: 0; z-index: 60; background: rgba(0, 0, 0, 0.94); display: grid; grid-template-rows: auto 1fr auto; gap: 1rem; padding: max(16px, env(safe-area-inset-top, 0px)) max(16px, env(safe-area-inset-right, 0px)) max(16px, env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px)); }
+.lb-x { justify-self: end; background: none; border: 1px solid var(--line); color: var(--fg); padding: 0.6rem 1rem; cursor: pointer; font-size: 0.8rem; }
+.lb-x:hover { border-color: var(--fg); }
+.lb-frame { display: grid; place-items: center; min-height: 0; }
+.lb-frame iframe { width: min(100%, calc((100vh - 9rem) * 16 / 9)); aspect-ratio: 16 / 9; border: 0; background: #000; }
+.lb-out { justify-self: center; }
+
+
+/* Shared section grid */
+.sec { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); column-gap: var(--gutter); row-gap: 1.2rem; }
+.sec > .cap:first-child { grid-column: 1 / 3; }
+.sec .body { grid-column: 2 / 6; }
+.sec .body.full { grid-column: 1 / 6; }
+
+/* About */
+.about h2 { font-size: clamp(2.2rem, 6.2vw, 6.2rem); margin-bottom: clamp(1.5rem, 4vw, 3rem); }
+.cols2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--gutter); }
+.cols2 p { font-size: clamp(1rem, 1.35vw, 1.3rem); max-width: 40ch; }
+.assets { margin: clamp(1.5rem, 4vw, 3rem) 0 0; padding: 0; list-style: none; display: flex; flex-wrap: wrap; gap: 0.3rem 0; }
+.assets li::after { content: "/"; margin-inline: 0.6em; color: var(--muted); }
+.assets li:last-child::after { content: ""; }
+
+/* Statement */
+
+/* Clients */
+.clients { font-size: clamp(1.2rem, 2.7vw, 2.5rem); font-weight: 700; font-stretch: 90%; letter-spacing: -0.035em; line-height: 1.15; margin: 0; padding: 0; list-style: none; display: flex; flex-wrap: wrap; }
+.clients li::after { content: "/"; color: var(--muted); margin-inline: 0.3em; }
+.clients li:last-child::after { content: ""; }
+
+/* Awards */
+
+.awards { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--fg); }
+.aw { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); column-gap: var(--gutter); row-gap: 0.4rem; padding: clamp(0.9rem, 1.8vw, 1.4rem) 0.6rem; border-bottom: 1px solid var(--line); align-items: start; }
+.aw .y { grid-column: 1; padding-top: 0.3rem; }
+.aw .p { grid-column: 2 / 5; display: grid; gap: 0.4rem; }
+.aw .pt { font-weight: 700; font-stretch: 90%; letter-spacing: -0.04em; font-size: clamp(1.4rem, 3vw, 3rem); line-height: 0.95; text-wrap: balance; }
+.aw .m { grid-column: 5; display: grid; gap: 0.15rem; justify-items: end; text-align: right; padding-top: 0.3rem; }
+
+/* Experience */
+.two { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--gutter); }
+.job { border-top: 1px solid var(--line); padding-top: 1rem; display: grid; gap: 1.5rem; }
+.job h3 { font-size: clamp(1.8rem, 4.2vw, 4rem); }
+.skills { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--gutter); margin-top: clamp(2rem, 5vw, 4rem); }
+.skills > div { border-top: 1px solid var(--line); padding-top: 1rem; display: grid; gap: 0.8rem; align-content: start; }
+.skills p:last-child { color: var(--muted); max-width: 34ch; }
+.tools { margin-top: 2rem; }
+
+/* Education */
+.edu-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 1.8rem; }
+.edu-list li { display: grid; gap: 0.5rem; }
+.edu-list strong { font-weight: 700; font-stretch: 90%; letter-spacing: -0.04em; font-size: clamp(1.6rem, 3.6vw, 3.4rem); line-height: 1; }
+
+/* Contact */
+.contact h2 { font-size: clamp(2.8rem, 12vw, 12rem); margin-bottom: clamp(2rem, 6vw, 5rem); }
+.contact-list { margin: 0; padding: 0; list-style: none; border-top: 1px solid var(--line); }
+.contact-list li { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 4fr) auto; column-gap: var(--gutter); align-items: center; padding: 1.1rem 0; border-bottom: 1px solid var(--line); }
+.contact-list .v { font-weight: 600; font-stretch: 90%; letter-spacing: -0.035em; font-size: clamp(1.15rem, 3.2vw, 2.8rem); line-height: 1.1; overflow-wrap: anywhere; user-select: all; }
+.copy { background: transparent; color: var(--fg); border: 1px solid var(--line); padding: 0.5rem 0.9rem; font-size: 0.75rem; letter-spacing: 0.02em; cursor: pointer; }
+.copy:hover { border-color: var(--fg); }
+.mail { display: inline-block; margin-top: 1.5rem; border: 1px solid var(--fg); padding: 0.8rem 1.4rem; }
+.mail:hover { background: var(--fg); color: var(--bg); }
+footer { padding-block: 1.6rem; border-top: 1px solid var(--line); }
+footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0.5rem 1.5rem; }
+
+@media (max-width: 860px) {
+  .top .grid5 { grid-template-columns: repeat(4, minmax(0, 1fr)); row-gap: 0.4rem; padding-top: 0.8rem; }
+  .top .mark { grid-column: 1 / -1; }
+  .top nav a { font-size: clamp(0.9rem, 4vw, 1.2rem); padding-block: 0.3rem 0.8rem; }
+  .hero .c2, .hero .c4 { grid-column: 1 / -1; }
+  .hero .grid5 { row-gap: 0.8rem; }
+  .sec > .cap:first-child, .sec .body { grid-column: 1 / -1; }
+  .cols2, .two, .skills { grid-template-columns: minmax(0, 1fr); }
+  .item a { grid-template-columns: 2.6rem minmax(0, 1fr); row-gap: 0.9rem; }
+  .item .t { grid-column: 2; }
+  .item .m { grid-column: 2; justify-items: start; text-align: left; }
+  .item .n { padding-top: 0.35rem; }
+  .aw { grid-template-columns: 2.6rem minmax(0, 1fr); }
+  .aw .p, .aw .m { grid-column: 2; }
+  .aw .m { justify-items: start; text-align: left; padding-top: 0; }
+  .item a:hover .t, .item a:focus-visible .t { transform: none; }
+  .contact-list li { grid-template-columns: minmax(0, 1fr) auto; }
+  .contact-list li > .cap { grid-column: 1 / -1; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .item .t, .item a { transition: none; }
+}
+[hidden]{display:none!important}
+</style>
+</head>
+<body>
+
+
+<header class="top">
+  <div class="wrap">
+    <div class="grid5">
+      <a class="mark" href="#top" aria-label="Daniele Pellegrini, back to top">Daniele<br>Pellegrini</a>
+      <nav aria-label="Sections">
+        <a href="#about">About</a>
+        <a href="#work">Work</a>
+        <a href="#awards">Awards</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </div>
+  </div>
+</header>
+
+<main id="top">
+  <section class="hero">
+    <div class="wrap">
+      <div class="grid5">
+        <p class="cap c2">Senior Sound Designer<br>&amp; Creative Producer</p>
+        <p class="cap c4">Munich</p>
+      </div>
+      <h1 class="disp"><span>Daniele</span><span>Pellegrini</span></h1>
+    </div>
+  </section>
+
+  <section class="about" id="about" style="padding-top:0">
+    <div class="wrap sec">
+      <p class="cap">(About)</p>
+      <div class="body">
+        <h2 class="disp">Senior Sound Designer &amp; Creative Producer</h2>
+        <div class="cols2">
+          <p>Award-winning Senior Sound Designer &amp; Creative Producer (Red Dot, iF Design, Transform Awards Europe &amp; North America). I design strategy-led, resonant sonic ecosystems for global brands, managing end-to-end production with a sharp eye for detail.</p>
+          <p>Passionate about discovering perfection in the imperfect, I specialize in translating niche, technical sound craft into engaging, pop-cultural experiences. Experienced in leading cross-functional teams, I bridge creative vision with high-impact production execution.</p>
+        </div>
+        <ul class="assets cap" aria-label="Audio assets I develop">
+          <li>Sonic DNAs</li><li>Sonic logos</li><li>UX-UI sounds</li><li>Soundscapes</li><li>Podcast sounds</li><li>Event sounds</li><li>Campaign tracks</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="work" id="work" aria-label="Select work">
+    <div class="wrap">
+      <div class="work-head">
+        <h2 class="disp">Work<sup id="tot">(17)</sup></h2>
+        <div class="filters" role="group" aria-label="Filter projects">
+          <button class="filter" type="button" id="f-all" data-filter="all" aria-pressed="true">All (17)</button>
+          <button class="filter" type="button" id="f-music" data-filter="music" aria-pressed="false">Commercial music (11)</button>
+          <button class="filter" type="button" id="f-logo" data-filter="logo" aria-pressed="false">Sonic logos (6)</button>
+        </div>
+      </div>
+      <ul class="index" id="index">
+        <li class="item" data-kind="music"><a href="https://vimeo.com/1240175241" target="_blank" rel="noopener" data-vimeo="1240175241" aria-label="The new CLS, Mercedes-Benz, watch on Vimeo">
+          <span class="n cap dim">(01)</span>
+          <span class="t"><span class="tt">The new CLS</span></span>
+          <span class="m"><span class="cap">Mercedes-Benz</span><span class="cap dim">Commercial music</span><span class="cap go">Watch ↗</span></span>
+        </a></li>
+        <li class="item" data-kind="music"><a href="https://vimeo.com/1240175205" target="_blank" rel="noopener" data-vimeo="1240175205" aria-label="The new EQA, Mercedes-Benz, watch on Vimeo">
+          <span class="n cap dim">(02)</span>
+          <span class="t"><span class="tt">The new EQA</span><span class="sub cap dim">Switch on to stand out</span></span>
+          <span class="m"><span class="cap">Mercedes-Benz</span><span class="cap dim">Commercial music</span><span class="cap go">Watch ↗</span></span>
+        </a></li>
+        <li class="item" data-kind="music"><a href="https://vimeo.com/1240175236" target="_blank" rel="noopener" data-vimeo="1240175236" aria-label="The EQB, Mercedes-Benz, watch on Vimeo">
+          <span class="n cap dim">(03)</span>
+          <span class="t"><span class="tt">The EQB</span><span class="sub cap dim">This is for new dimensions</span></span>
+          <span class="m"><span class="cap">Mercedes-Benz</span><span class="cap dim">Commercial music</span><span class="cap go">Watch ↗</span></span>
+        </a></li>
+        <li class="item" data-kind="music"><a href="https://vimeo.com/1240175232" target="_blank" rel="noopener" data-vimeo="1240175232" aria-label="The EQE, Mercedes-Benz, watch on Vimeo">
+          <span class="n cap dim">(04)</span>
+          <span class="t"><span class="tt">The EQE</span><span class="sub cap dim">This is for all senses</span></span>
+          <span class="m"><span class="cap">Mercedes-Benz</span><span class="cap dim">Commercial music</span><span class="cap go">Watch ↗</span></span>
+        </a></li>
+        <li class="item" data-kind="music"><a href="https://vimeo.com/1240175209" target="_blank" rel="noopener" data-vimeo="1240175209" aria-label="The Hunt for Glory, Mercedes-Benz, watch on Vimeo">
+          <span class="n cap dim">(05)</span>
+          <span class="t"><span class="tt">The Hunt for Glory</span><span class="sub cap dim">Mercedes × League of Legends</span></span>
+          <span class="m"><span class="cap">Mercedes-Benz</span><span class="cap dim">Commercial music</span><span class="cap go">Watch ↗</span></span>
+        </a></li>
+        <li class="item" data-kind="music"><a href="https://vimeo.com/1240175158" target="_blank" rel="noopener" data-vimeo="1240175158" aria-label="Copa América 2021, Mastercard, watch on Vimeo">
+          <span class="n cap dim">(06)</span>
+          <span class="t"><span class="tt">Copa América 2021</span><span class="sub cap dim">Vive la pasión de la CONMEBOL Copa América</span></span>
+          <span class="m"><span class="cap">Mastercard</span><span class="cap dim">Commercial music</span><span class="cap go">Watch ↗</span></span>
+        </a></li>
+        <li class="item" data-kind="music"><a href="https://vimeo.com/1240175254" target="_blank" rel="noopener" data-vimeo="1240175254" aria-label="McLaren × Mastercard Anthem, Mastercard, watch on Vimeo">
+          <span class="n cap dim">(07)</span>
+          <span class="t"><span class="tt">McLaren × Mastercard Anthem</span></span>
+          <span class="m"><span class="cap">Mastercard</span><span class="cap dim">Commercial music</span><span class="cap go">Watch ↗</span></span>
+        </a></li>
+        <li class="item" data-kind="music"><a href="https://vimeo.com/1240175190" target="_blank" rel="noopener" data-vimeo="1240175190" aria-label="Colours that come alive, Avon, watch on Vimeo">
+          <span class="n cap dim">(08)</span>
+          <span class="t"><span class="tt">Colours that come alive</span><span class="sub cap dim">Ultra Lipstick</span></span>
+          <span class="m"><span class="cap">Avon</span><span class="cap dim">Commercial music</span><span class="cap go">Watch ↗</span></span>
+        </a></li>
+        <li class="item" data-kind="music"><a href="https://vimeo.com/1240175157" target="_blank" rel="noopener" data-vimeo="1240175157" aria-label="Super Bowl LVII, Avocados From Mexico, watch on Vimeo">
+          <span class="n cap dim">(09)</span>
+          <span class="t"><span class="tt">Super Bowl LVII</span><span class="sub cap dim">Adam and Eve</span></span>
+          <span class="m"><span class="cap">Avocados From Mexico</span><span class="cap dim">Commercial music</span><span class="cap red">Red Dot 2023</span><span class="cap go">Watch ↗</span></span>
+        </a></li>
+        <li class="item" data-kind="music"><a href="https://vimeo.com/1240303124" target="_blank" rel="noopener" data-vimeo="1240303124" aria-label="Dove MenCare, Dove, watch on Vimeo">
+          <span class="n cap dim">(10)</span>
+          <span class="t"><span class="tt">Dove MenCare</span><span class="sub cap dim">Relaxing Plant-Based Body Wash</span></span>
+          <span class="m"><span class="cap">Dove</span><span class="cap dim">Commercial music</span><span class="cap go">Watch ↗</span></span>
+        </a></li>
+        <li class="item" data-kind="music"><a href="https://vimeo.com/1240303125" target="_blank" rel="noopener" data-vimeo="1240303125" aria-label="Glo HyperPro, Glo, watch on Vimeo">
+          <span class="n cap dim">(11)</span>
+          <span class="t"><span class="tt">Glo HyperPro</span></span>
+          <span class="m"><span class="cap">Glo</span><span class="cap dim">Commercial music</span><span class="cap go">Watch ↗</span></span>
+        </a></li>
+        <li class="item" data-kind="logo"><a href="https://vimeo.com/1240175260" target="_blank" rel="noopener" data-vimeo="1240175260" aria-label="The Sound of Vodafone, Vodafone, watch on Vimeo">
+          <span class="n cap dim">(12)</span>
+          <span class="t"><span class="tt">The Sound of Vodafone</span></span>
+          <span class="m"><span class="cap">Vodafone</span><span class="cap dim">Sonic logo</span><span class="cap red">iF Design Award 2025</span><span class="cap go">Watch ↗</span></span>
+        </a></li>
+        <li class="item" data-kind="logo"><a href="https://vimeo.com/1240175245" target="_blank" rel="noopener" data-vimeo="1240175245" aria-label="Vodafone Sonic Logo, Vodafone, watch on Vimeo">
+          <span class="n cap dim">(13)</span>
+          <span class="t"><span class="tt">Vodafone Sonic Logo</span></span>
+          <span class="m"><span class="cap">Vodafone</span><span class="cap dim">Sonic logo</span><span class="cap go">Watch ↗</span></span>
+        </a></li>
+        <li class="item" data-kind="logo"><a href="https://vimeo.com/1240175156" target="_blank" rel="noopener" data-vimeo="1240175156" aria-label="The Sound of Moeve, Moeve, watch on Vimeo">
+          <span class="n cap dim">(14)</span>
+          <span class="t"><span class="tt">The Sound of Moeve</span></span>
+          <span class="m"><span class="cap">Moeve</span><span class="cap dim">Sonic logo</span><span class="cap go">Watch ↗</span></span>
+        </a></li>
+        <li class="item" data-kind="logo"><a href="https://vimeo.com/1240175160" target="_blank" rel="noopener" data-vimeo="1240175160" aria-label="Orchestre de Chambre de Paris Sonic Logo, Orchestre de Chambre de Paris, watch on Vimeo">
+          <span class="n cap dim">(15)</span>
+          <span class="t"><span class="tt">Orchestre de Chambre de Paris Sonic Logo</span></span>
+          <span class="m"><span class="cap">Orchestre de Chambre de Paris</span><span class="cap dim">Sonic logo</span><span class="cap go">Watch ↗</span></span>
+        </a></li>
+        <li class="item" data-kind="logo"><a href="https://vimeo.com/1240175269" target="_blank" rel="noopener" data-vimeo="1240175269" aria-label="Uber Sonic Logo, Uber, watch on Vimeo">
+          <span class="n cap dim">(16)</span>
+          <span class="t"><span class="tt">Uber Sonic Logo</span></span>
+          <span class="m"><span class="cap">Uber</span><span class="cap dim">Sonic logo</span><span class="cap go">Watch ↗</span></span>
+        </a></li>
+        <li class="item" data-kind="logo"><a href="https://vimeo.com/1240303123" target="_blank" rel="noopener" data-vimeo="1240303123" aria-label="IHH Healthcare Case Film, IHH Healthcare, watch on Vimeo">
+          <span class="n cap dim">(17)</span>
+          <span class="t"><span class="tt">IHH Healthcare Case Film</span></span>
+          <span class="m"><span class="cap">IHH Healthcare</span><span class="cap dim">Case film</span><span class="cap go">Watch ↗</span></span>
+        </a></li>
+      </ul>
+      <p class="cap dim count-note">Select films, produced at AMP. More on request.</p>
+    </div>
+  </section>
+
+  <section id="awards" style="padding-top:0">
+    <div class="wrap">
+      <div class="work-head">
+        <h2 class="disp">Awards<sup id="atot">(30)</sup></h2>
+        <div class="filters" role="group" aria-label="Filter awards">
+          <button class="afilter" type="button" id="a-all" data-afilter="all" aria-pressed="true">All (30)</button>
+          <button class="afilter" type="button" id="a-reddot" data-afilter="reddot" aria-pressed="false">Red Dot (13)</button>
+          <button class="afilter" type="button" id="a-transform" data-afilter="transform" aria-pressed="false">Transform (11)</button>
+          <button class="afilter" type="button" id="a-other" data-afilter="other" aria-pressed="false">Other (6)</button>
+        </div>
+      </div>
+      <ul class="awards" id="awards-list">
+          <li class="aw" data-body="transform"><span class="y cap">2026</span><span class="p"><span class="pt">The Sound of Oscar Mayer</span><span class="cap dim">Oscar Mayer · Best Sonic Brand Evolution</span></span><span class="m"><span class="cap">Transform Awards North America</span><span class="cap red">Silver</span></span></li>
+          <li class="aw" data-body="transform"><span class="y cap">2026</span><span class="p"><span class="pt">Team Priceless: Mastercard &amp; McLaren</span><span class="cap dim">Mastercard · Best Sonic Brand Activation</span></span><span class="m"><span class="cap">Transform Awards North America</span><span class="cap red">Gold</span></span></li>
+          <li class="aw" data-body="other"><span class="y cap">2026</span><span class="p"><span class="pt">Best Audio Branding 2026</span><span class="cap dim">Web Design / No-code Design</span></span><span class="m"><span class="cap">Awwwards</span><span class="cap red">Honorable Mention</span></span></li>
+          <li class="aw" data-body="other"><span class="y cap">2025</span><span class="p"><span class="pt">Multisensorial rebrand of Elica</span><span class="cap dim">Elica</span></span><span class="m"><span class="cap">ADCI Art Directors Club Italiano Awards 2025</span><span class="cap red">Silver</span></span></li>
+          <li class="aw" data-body="other"><span class="y cap">2025</span><span class="p"><span class="pt">Vodafone x Sonic Hub</span><span class="cap dim">Vodafone · Best Use of Audio Technology</span></span><span class="m"><span class="cap">The Wires</span></span></li>
+          <li class="aw" data-body="other"><span class="y cap">2025</span><span class="p"><span class="pt">Saudia Sonic Evolution</span><span class="cap dim">Saudia · Sonic</span></span><span class="m"><span class="cap">Brand Impact Awards</span><span class="cap red">Bronze</span></span></li>
+          <li class="aw" data-body="reddot"><span class="y cap">2025</span><span class="p"><span class="pt">The Sound of Uber</span><span class="cap dim">Uber · Sound Design / Audio Logo</span></span><span class="m"><span class="cap">Red Dot Brand &amp; Communication Design</span></span></li>
+          <li class="aw" data-body="transform"><span class="y cap">2025</span><span class="p"><span class="pt">Mastercard: Sonic Brand Evolution</span><span class="cap dim">Mastercard · Best Sonic Brand Evolution</span></span><span class="m"><span class="cap">Transform Awards North America</span><span class="cap red">Bronze</span></span></li>
+          <li class="aw" data-body="transform"><span class="y cap">2025</span><span class="p"><span class="pt">The Sound of Docusign</span><span class="cap dim">Docusign · Best Audio Brand</span></span><span class="m"><span class="cap">Transform Awards North America</span><span class="cap red">Highly Commended</span></span></li>
+          <li class="aw" data-body="transform"><span class="y cap">2025</span><span class="p"><span class="pt">The Sound of Uber</span><span class="cap dim">Uber · Best Audio Brand</span></span><span class="m"><span class="cap">Transform Awards North America</span><span class="cap red">Bronze</span></span></li>
+          <li class="aw" data-body="transform"><span class="y cap">2025</span><span class="p"><span class="pt">The Sound of Saudia</span><span class="cap dim">Saudia · Best Sonic Brand Evolution</span></span><span class="m"><span class="cap">Transform Awards MEA</span><span class="cap red">Silver</span></span></li>
+          <li class="aw" data-body="other"><span class="y cap">2025</span><span class="p"><span class="pt">The Sound of Vodafone</span><span class="cap dim">Vodafone · Sound Branding</span></span><span class="m"><span class="cap">iF Design Award</span></span></li>
+          <li class="aw" data-body="other"><span class="y cap">2024</span><span class="p"><span class="pt">St. Jude Sonic Branding, Broadcast Music Compilation</span><span class="cap dim">ALSAC / St. Jude Children&#x27;s Research Hospital · Musical Composition / Arrangement</span></span><span class="m"><span class="cap">Nashville/Midsouth Emmy Awards</span><span class="cap red">Emmy</span></span></li>
+          <li class="aw" data-body="transform"><span class="y cap">2024</span><span class="p"><span class="pt">The Sound of Saudia</span><span class="cap dim">Saudia · Best Use of Audio Branding</span></span><span class="m"><span class="cap">Transform Awards MEA</span><span class="cap red">Bronze</span></span></li>
+          <li class="aw" data-body="transform"><span class="y cap">2023</span><span class="p"><span class="pt">Feeladelphia “Can’t fake it”</span><span class="cap dim">Philadelphia Cream Cheese · Best use of audio branding</span></span><span class="m"><span class="cap">Transform Awards North America</span><span class="cap red">Silver</span></span></li>
+          <li class="aw" data-body="transform"><span class="y cap">2023</span><span class="p"><span class="pt">The Sound of Responsibility</span><span class="cap dim">Zurich Group Germany · Best use of audio branding</span></span><span class="m"><span class="cap">Transform Awards Europe</span><span class="cap red">Bronze</span></span></li>
+          <li class="aw" data-body="reddot"><span class="y cap">2023</span><span class="p"><span class="pt">The Sound of Zurich Group Germany</span><span class="cap dim">Zurich Group Germany · Corporate Sound Concept</span></span><span class="m"><span class="cap">Red Dot Communication Design</span></span></li>
+          <li class="aw" data-body="reddot"><span class="y cap">2023</span><span class="p"><span class="pt">The Sound of Responsibility</span><span class="cap dim">Zurich Group Germany · Audio Logo</span></span><span class="m"><span class="cap">Red Dot Communication Design</span></span></li>
+          <li class="aw" data-body="reddot"><span class="y cap">2023</span><span class="p"><span class="pt">The Sound of Vuse</span><span class="cap dim">Vuse · Corporate Sound Concept</span></span><span class="m"><span class="cap">Red Dot Communication Design</span></span></li>
+          <li class="aw" data-body="reddot"><span class="y cap">2023</span><span class="p"><span class="pt">The Sound of Telenor</span><span class="cap dim">Telenor · Corporate Sound Concept</span></span><span class="m"><span class="cap">Red Dot Communication Design</span></span></li>
+          <li class="aw" data-body="reddot"><span class="y cap">2023</span><span class="p"><span class="pt">Rethinking the sound of a mobile generation</span><span class="cap dim">Share Now · Corporate Sound Concept, Global Sonic Identity</span></span><span class="m"><span class="cap">Red Dot Communication Design</span></span></li>
+          <li class="aw" data-body="reddot"><span class="y cap">2023</span><span class="p"><span class="pt">“Awake” by Mercedes-Benz: A short film</span><span class="cap dim">Mercedes-Benz · Cinematic Sound Concept</span></span><span class="m"><span class="cap">Red Dot Communication Design</span></span></li>
+          <li class="aw" data-body="reddot"><span class="y cap">2023</span><span class="p"><span class="pt">Digital World Premiere EQE SUV</span><span class="cap dim">Mercedes-Benz · Commercial Sound</span></span><span class="m"><span class="cap">Red Dot Communication Design</span></span></li>
+          <li class="aw" data-body="reddot"><span class="y cap">2023</span><span class="p"><span class="pt">Digital World Premiere E-Class</span><span class="cap dim">Mercedes-Benz · Commercial Sound</span></span><span class="m"><span class="cap">Red Dot Communication Design</span></span></li>
+          <li class="aw" data-body="reddot"><span class="y cap">2023</span><span class="p"><span class="pt">Feeladelphia “Can’t fake it”</span><span class="cap dim">Philadelphia Cream Cheese · Soundscapes</span></span><span class="m"><span class="cap">Red Dot Communication Design</span></span></li>
+          <li class="aw" data-body="reddot"><span class="y cap">2023</span><span class="p"><span class="pt">The Sound of Allianz Global Investors</span><span class="cap dim">Allianz Global Investors · Audio Logo</span></span><span class="m"><span class="cap">Red Dot Communication Design</span></span></li>
+          <li class="aw" data-body="reddot"><span class="y cap">2023</span><span class="p"><span class="pt">Avocados From Mexico at the Super Bowl</span><span class="cap dim">Avocados From Mexico · Commercial Sound</span></span><span class="m"><span class="cap">Red Dot Communication Design</span></span></li>
+          <li class="aw" data-body="reddot"><span class="y cap">2021</span><span class="p"><span class="pt">The Sound of Mastercard</span><span class="cap dim">Mastercard · Corporate Sound Concept, Global Sonic Identity</span></span><span class="m"><span class="cap">Red Dot Communication Design</span></span></li>
+          <li class="aw" data-body="transform"><span class="y cap">2020</span><span class="p"><span class="pt">The Sound of Deloitte</span><span class="cap dim">Deloitte · Best use of audio brand</span></span><span class="m"><span class="cap">Transform Awards North America</span><span class="cap red">Gold</span></span></li>
+          <li class="aw" data-body="transform"><span class="y cap">2020</span><span class="p"><span class="pt">The Sound of Mastercard</span><span class="cap dim">Mastercard · Best use of audio brand</span></span><span class="m"><span class="cap">Transform Awards Europe</span><span class="cap red">Gold</span></span></li>
+      </ul>
+      <p class="cap dim count-note">30 awards and recognitions.</p>
+    </div>
+  </section>
+
+  <section id="clients" style="padding-top:0">
+    <div class="wrap sec">
+      <p class="cap">(Clients)</p>
+      <div class="body">
+        <ul class="clients">
+          <li>ADAC</li><li>Alinma</li><li>Allianz GI</li><li>Avocados From Mexico</li><li>Avon</li><li>Deloitte</li><li>Docusign</li><li>Elica</li><li>Emirates NBD</li><li>ENI</li><li>Ernst &amp; Young</li><li>Erste Bank</li><li>Expo 2030</li><li>Forcepoint</li><li>Funke</li><li>FUSO</li><li>Gates Foundation</li><li>GCA</li><li>Geberit</li><li>Generali</li><li>GetYourGuide</li><li>Gillette</li><li>Glo</li><li>Google</li><li>GSK</li><li>Haleon</li><li>Hassana</li><li>Health 100</li><li>Heineken</li><li>Heinemann</li><li>Hellmann&#x27;s</li><li>HelpChat</li><li>Hilton</li><li>HSBC</li><li>Ibtikar</li><li>IHH Healthcare</li><li>illy</li><li>Indeed</li><li>IXDS</li><li>JLL</li><li>Johnson &amp; Johnson</li><li>Kaefer</li><li>KFC</li><li>Kit Kat</li><li>Klarna</li><li>Kraft Heinz</li><li>Lambienairn</li><li>Lay&#x27;s</li><li>Lidl</li><li>Lilly</li><li>Linde</li><li>L&#x27;Oréal</li><li>Mastercard</li><li>Mazda</li><li>Mercedes-Benz</li><li>Moeve</li><li>Mondelez</li><li>More Nutrition</li><li>Munich Re</li><li>Nestlé</li><li>Netflix</li><li>NewRelease</li><li>Nibble</li><li>Noerr</li><li>Nubank</li><li>ÖAMTC</li><li>OMNI (BAT)</li><li>OnStar</li><li>Opella</li><li>Oral-B</li><li>Orchestre de Chambre de Paris</li><li>Oscar Mayer</li><li>Ottava</li><li>Pearson</li><li>Pentagram</li><li>PepsiCo</li><li>Piraeus Bank</li><li>Porsche</li><li>Reese&#x27;s</li><li>reMarkable</li><li>RUA</li><li>SAAB</li><li>Sadafco</li><li>Sakani</li><li>Sana Kliniken</li><li>SAP</li><li>Saudia</li><li>Schindler</li><li>Senseo</li><li>Sensodyne</li><li>Share Now</li><li>Shell</li><li>SMBC Indonesia</li><li>Spectrum-VCCP</li><li>Stella Artois</li><li>STEM</li><li>St. Jude</li><li>Swedbank</li><li>TCCC</li><li>Telenor</li><li>Tesco</li><li>The Fresh Market</li><li>Toyota</li><li>Triumph</li><li>Tuborg</li><li>Uber</li><li>UBS</li><li>UniCredit</li><li>Unilever</li><li>Verizon</li><li>Vicks</li><li>Vodafone</li><li>Vuse</li><li>Zurich</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="experience" style="padding-top:0">
+    <div class="wrap">
+      <div class="sec">
+        <p class="cap">(Experience)</p>
+        <div class="body">
+          <div class="two">
+            <div class="job">
+              <p class="cap red">2020 – Present</p>
+              <h3 class="disp">AMP GmbH</h3>
+              <p class="cap">Senior Sound Designer &amp; Creative Producer</p>
+            </div>
+            <div class="job">
+              <p class="cap red">2014 – 2020</p>
+              <h3 class="disp">Studio Blu Rome</h3>
+              <p class="cap">Music supervisor</p>
+            </div>
+          </div>
+          <div class="skills">
+            <div><p class="cap">Creative Production</p><p>Great ideas need purposeful execution. I design intelligent, distinctive sound solutions built for clear, measurable impact.</p></div>
+            <div><p class="cap">Project Management</p><p>I steer creative momentum, not rigid rules, aligning teams to deliver complex projects on vision and on time.</p></div>
+            <div><p class="cap">Creative Strategy</p><p>Without strategy, great audio stays unheard. I build brand-aligned sonic identities that resonate, engage, and endure.</p></div>
+          </div>
+          <p class="cap dim tools">G-Suite, Miro, Figma, Monday, Asana, Slack, Logic Pro X, Final Cut Pro</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="education" style="padding-top:0">
+    <div class="wrap">
+      <div class="sec">
+        <p class="cap">(Education)</p>
+        <div class="body">
+          <ul class="edu-list">
+            <li><span class="cap red">2019</span><strong>Abbey Road Institute</strong><span class="cap">Music Production &amp; Sound Engineering</span></li>
+            <li><span class="cap red">2018</span><strong>Università di Roma Tre</strong><span class="cap">Media &amp; Communication Sciences</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="contact" id="contact" style="border-top:1px solid var(--line)">
+    <div class="wrap">
+      <p class="cap" style="margin-bottom:1.2rem">(Contact)</p>
+      <h2 class="disp">Let's work together</h2>
+      <ul class="contact-list">
+        <li><span class="cap dim">Email</span><span class="v" id="c-email">pellegrinidanielemaria@gmail.com</span><button class="copy" type="button" id="b-email" data-copy="c-email">Copy</button></li>
+        <li><span class="cap dim">Phone</span><span class="v" id="c-phone">+39 3400019678</span><button class="copy" type="button" id="b-phone" data-copy="c-phone">Copy</button></li>
+        <li><span class="cap dim">Based in</span><span class="v">Munich</span><span></span></li>
+      </ul>
+      <a class="mail cap" href="mailto:pellegrinidanielemaria@gmail.com">Write an email ↗</a>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span class="cap dim">© 2026 Daniele Pellegrini</span>
+    <span class="cap dim">Senior Sound Designer &amp; Creative Producer, Munich</span>
+  </div>
+</footer>
+
+<div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="Video player" hidden>
+  <button class="lb-x" type="button" id="lb-x">Close ✕</button>
+  <div class="lb-frame"><iframe id="lb-f" title="Vimeo video player" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe></div>
+  <a class="lb-out cap" id="lb-o" href="#" target="_blank" rel="noopener">Open on Vimeo ↗</a>
+</div>
+
+<script>
+(function () {
+  var rows = document.querySelectorAll('#index .item');
+  var filters = document.querySelectorAll('.filter');
+  var tot = document.getElementById('tot');
+  function pad(n) { return (n < 10 ? '0' : '') + n; }
+  function renumber() {
+    var i = 0;
+    rows.forEach(function (r) {
+      if (r.hidden) return;
+      i += 1;
+      r.querySelector('.n').textContent = '(' + pad(i) + ')';
+    });
+    tot.textContent = '(' + i + ')';
+  }
+  filters.forEach(function (b) {
+    b.addEventListener('click', function () {
+      var f = b.getAttribute('data-filter');
+      filters.forEach(function (o) { o.setAttribute('aria-pressed', o === b ? 'true' : 'false'); });
+      rows.forEach(function (r) { r.hidden = !(f === 'all' || r.getAttribute('data-kind') === f); });
+      renumber();
+    });
+  });
+
+  var lb = document.getElementById('lb'), lf = document.getElementById('lb-f'), lo = document.getElementById('lb-o'), lx = document.getElementById('lb-x');
+  var opener = null;
+  function openLb(a) {
+    var id = a.getAttribute('data-vimeo');
+    opener = a;
+    lf.src = 'https://player.vimeo.com/video/' + id + '?autoplay=1&title=0&byline=0&portrait=0&dnt=1';
+    lo.href = 'https://vimeo.com/' + id;
+    lb.hidden = false;
+    document.body.style.overflow = 'hidden';
+    lx.focus();
+  }
+  function closeLb() {
+    lb.hidden = true;
+    lf.src = 'about:blank';
+    document.body.style.overflow = '';
+    if (opener) opener.focus();
+  }
+  document.querySelectorAll('#index a').forEach(function (a) {
+    a.addEventListener('click', function (e) {
+      if (e.metaKey || e.ctrlKey || e.shiftKey || e.button !== 0) return;
+      e.preventDefault();
+      openLb(a);
+    });
+  });
+  lx.addEventListener('click', closeLb);
+  lb.addEventListener('click', function (e) { if (e.target === lb || e.target.classList.contains('lb-frame')) closeLb(); });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !lb.hidden) closeLb(); });
+  var arows = document.querySelectorAll('#awards-list .aw');
+  var afilters = document.querySelectorAll('.afilter');
+  var atot = document.getElementById('atot');
+  afilters.forEach(function (b) {
+    b.addEventListener('click', function () {
+      var f = b.getAttribute('data-afilter');
+      var c = 0;
+      afilters.forEach(function (o) { o.setAttribute('aria-pressed', o === b ? 'true' : 'false'); });
+      arows.forEach(function (r) {
+        var show = f === 'all' || r.getAttribute('data-body') === f;
+        r.hidden = !show;
+        if (show) c += 1;
+      });
+      atot.textContent = '(' + c + ')';
+    });
+  });
+
+  function flash(btn, text) {
+    var old = btn.textContent;
+    btn.textContent = text;
+    setTimeout(function () { btn.textContent = old; }, 1600);
+  }
+  document.querySelectorAll('[data-copy]').forEach(function (b) {
+    b.addEventListener('click', function () {
+      var el = document.getElementById(b.getAttribute('data-copy'));
+      var txt = el.textContent.trim();
+      var fallback = function () {
+        var r = document.createRange(); r.selectNodeContents(el);
+        var s = window.getSelection(); s.removeAllRanges(); s.addRange(r);
+        flash(b, 'Selected');
+      };
+      try {
+        navigator.clipboard.writeText(txt).then(function () { flash(b, 'Copied'); }, fallback);
+      } catch (err) { fallback(); }
+    });
+  });
+})();
+</script>
+
+</body>
+</html>
