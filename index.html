@@ -1,0 +1,944 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Daniele Pellegrini, award-winning senior sound designer and creative producer in Munich. Strategy-led sonic identities for global brands.">
+<title>Daniele Pellegrini</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&family=Hanken+Grotesk:wght@400..700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* Layout: pure black stage, light extended capitals, a five-column header grid, a numbered work index with a cursor-following preview, and small uppercase captions in parentheses. */
+:root {
+  --bg: #000000;
+  --fg: #e6e6e6;
+  --muted: #8d8d8d;
+  --line: #2b2b2b;
+  --accent: #f63b1a;
+  --display: 'Archivo', 'Helvetica Neue', Arial, sans-serif;
+  --body: 'Hanken Grotesk', 'Helvetica Neue', Arial, sans-serif;
+  --mono: 'DM Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
+  --gutter: 16px;
+  color-scheme: dark;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: 5rem; }
+body { margin: 0; background: var(--bg); color: var(--fg); font-family: var(--body); font-size: 1.0625rem; font-weight: 400; font-stretch: 100%; line-height: 1.5; -webkit-font-smoothing: antialiased; }
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 30; background: var(--bg); }
+a { color: inherit; text-decoration: none; }
+p { margin: 0; }
+button { font-family: inherit; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+img { display: block; max-width: 100%; height: auto; }
+
+.wrap { width: min(100%, 1560px); margin-inline: auto; padding-left: max(var(--gutter), env(safe-area-inset-left, 0px)); padding-right: max(var(--gutter), env(safe-area-inset-right, 0px)); }
+section { padding-block: clamp(3.5rem, 9vw, 8rem); }
+
+/* Type roles */
+.cap { font-family: var(--mono); font-size: 0.8rem; line-height: 1.35; letter-spacing: 0; font-weight: 400; }
+.filter, .afilter, .copy, .lb-x { font-family: var(--mono); }
+.cap.red { color: var(--accent); }
+.cap.dim { color: var(--muted); }
+.disp { font-weight: 800; font-stretch: 90%; letter-spacing: -0.045em; line-height: 0.9; margin: 0; }
+.grid5 { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); column-gap: var(--gutter); }
+
+/* Header */
+.top { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20; background: var(--bg); }
+.top .grid5 { align-items: center; min-height: 4rem; }
+.mark { font-weight: 800; font-stretch: 90%; font-size: 1.05rem; letter-spacing: -0.03em; line-height: 1.05; }
+.top nav { display: contents; }
+.top nav a { font-weight: 700; font-stretch: 90%; font-size: clamp(1.05rem, 2.6vw, 2.4rem); letter-spacing: -0.04em; line-height: 1; padding-block: 0.5rem; }
+.top nav a:last-child { justify-self: end; }
+.top nav a:hover { color: var(--accent); }
+
+/* Hero */
+.hero { padding-block: clamp(1rem, 3vw, 2rem) clamp(2.5rem, 6vw, 5rem); }
+.hero .grid5 { margin-top: clamp(1.5rem, 5vw, 4rem); }
+.hero .c2 { grid-column: 2 / 4; }
+.hero .c4 { grid-column: 4 / 6; }
+.hero h1 { font-size: clamp(3rem, 20vw, 19rem); margin-top: clamp(2rem, 6vw, 5rem); }
+.hero h1 span { display: block; }
+
+/* Work index */
+.work { padding-top: 0; }
+.work-head { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: 1.2rem 2rem; margin-bottom: clamp(1.5rem, 4vw, 3rem); }
+.work-head h2 { font-size: clamp(3.6rem, 17vw, 16rem); display: flex; align-items: flex-start; gap: 0.15em; }
+.work-head h2 sup { font-size: 0.8rem; font-weight: 400; font-stretch: 100%; letter-spacing: 0.02em; line-height: 1.3; margin-top: 0.6rem; color: var(--muted); }
+.filters { display: flex; flex-wrap: wrap; gap: 0.3rem 1.6rem; padding-bottom: 0.6rem; }
+.filter, .afilter { background: none; border: 0; border-bottom: 1px solid transparent; padding: 0.3rem 0; color: var(--muted); cursor: pointer; font-size: 0.8rem; letter-spacing: 0.02em; }
+.filter:hover, .afilter:hover { color: var(--fg); }
+.filter[aria-pressed="true"], .afilter[aria-pressed="true"] { color: var(--fg); border-bottom-color: var(--accent); }
+.index { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--fg); }
+.item { border-bottom: 1px solid var(--line); }
+.item a { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); column-gap: var(--gutter); align-items: center; padding: clamp(1.1rem, 2.4vw, 2rem) 0.6rem; transition: background 0.15s ease, color 0.15s ease; }
+.item .n { grid-column: 1; align-self: start; padding-top: 0.5rem; }
+.item .t { grid-column: 2 / 5; display: grid; gap: 0.7rem; transition: transform 0.4s cubic-bezier(.2, .8, .2, 1); }
+.item .tt { font-weight: 700; font-stretch: 90%; letter-spacing: -0.04em; font-size: clamp(2rem, 5.4vw, 5.4rem); line-height: 0.92; text-wrap: balance; }
+.item .m { grid-column: 5; display: grid; gap: 0.15rem; justify-items: end; text-align: right; }
+.item .go { margin-top: 0.7rem; }
+.item a:hover .t { transform: translateX(1.2rem); }
+.item a:hover, .item a:focus-visible { background: var(--accent); color: #000; }
+.item a:hover .cap, .item a:focus-visible .cap { color: #000; }
+.item a:focus-visible .t { transform: translateX(1.2rem); }
+.count-note { margin-top: 1.4rem; }
+.lb { position: fixed; inset: 0; z-index: 60; background: rgba(0, 0, 0, 0.94); display: grid; grid-template-rows: auto 1fr auto; gap: 1rem; padding: max(16px, env(safe-area-inset-top, 0px)) max(16px, env(safe-area-inset-right, 0px)) max(16px, env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px)); }
+.lb-x { justify-self: end; background: none; border: 1px solid var(--line); color: var(--fg); padding: 0.6rem 1rem; cursor: pointer; font-size: 0.8rem; }
+.lb-x:hover { border-color: var(--fg); }
+.lb-frame { display: grid; place-items: center; min-height: 0; }
+.lb-frame iframe { width: min(100%, calc((100vh - 9rem) * 16 / 9)); aspect-ratio: 16 / 9; border: 0; background: #000; }
+.lb-out { justify-self: center; }
+
+
+/* Shared section grid */
+.sec { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); column-gap: var(--gutter); row-gap: 1.2rem; }
+.sec > .cap:first-child { grid-column: 1 / 3; }
+.sec .body { grid-column: 2 / 6; }
+.sec .body.full { grid-column: 1 / 6; }
+
+/* About */
+.about h2 { font-size: clamp(2.2rem, 6.2vw, 6.2rem); margin-bottom: clamp(1.5rem, 4vw, 3rem); }
+.cols2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--gutter); }
+.cols2 p { font-size: clamp(1rem, 1.35vw, 1.3rem); max-width: 40ch; }
+.assets { margin: clamp(1.5rem, 4vw, 3rem) 0 0; padding: 0; list-style: none; display: flex; flex-wrap: wrap; gap: 0.3rem 0; }
+.assets li::after { content: "/"; margin-inline: 0.6em; color: var(--muted); }
+.assets li:last-child::after { content: ""; }
+
+/* Statement */
+
+/* Clients */
+.clients { font-size: clamp(1.2rem, 2.7vw, 2.5rem); font-weight: 700; font-stretch: 90%; letter-spacing: -0.035em; line-height: 1.15; margin: 0; padding: 0; list-style: none; display: flex; flex-wrap: wrap; }
+.clients li::after { content: "/"; color: var(--muted); margin-inline: 0.3em; }
+.clients li:last-child::after { content: ""; }
+
+/* Awards */
+
+.awards { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--fg); }
+.aw { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); column-gap: var(--gutter); row-gap: 0.4rem; padding: clamp(0.9rem, 1.8vw, 1.4rem) 0.6rem; border-bottom: 1px solid var(--line); align-items: start; }
+.aw .y { grid-column: 1; padding-top: 0.3rem; }
+.aw .p { grid-column: 2 / 5; display: grid; gap: 0.4rem; }
+.aw .pt { font-weight: 700; font-stretch: 90%; letter-spacing: -0.04em; font-size: clamp(1.4rem, 3vw, 3rem); line-height: 0.95; text-wrap: balance; }
+.aw .m { grid-column: 5; display: grid; gap: 0.15rem; justify-items: end; text-align: right; padding-top: 0.3rem; }
+
+/* Experience */
+.two { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--gutter); }
+.job { border-top: 1px solid var(--line); padding-top: 1rem; display: grid; gap: 1.5rem; }
+.job h3 { font-size: clamp(1.8rem, 4.2vw, 4rem); }
+.skills { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--gutter); margin-top: clamp(2rem, 5vw, 4rem); }
+.skills > div { border-top: 1px solid var(--line); padding-top: 1rem; display: grid; gap: 0.8rem; align-content: start; }
+.skills p:last-child { color: var(--muted); max-width: 34ch; }
+.tools { margin-top: 2rem; }
+
+/* Education */
+.edu-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 1.8rem; }
+.edu-list li { display: grid; gap: 0.5rem; }
+.edu-list strong { font-weight: 700; font-stretch: 90%; letter-spacing: -0.04em; font-size: clamp(1.6rem, 3.6vw, 3.4rem); line-height: 1; }
+
+/* Contact */
+.contact h2 { font-size: clamp(2.8rem, 12vw, 12rem); margin-bottom: clamp(2rem, 6vw, 5rem); }
+.contact-list { margin: 0; padding: 0; list-style: none; border-top: 1px solid var(--line); }
+.contact-list li { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 4fr) auto; column-gap: var(--gutter); align-items: center; padding: 1.1rem 0; border-bottom: 1px solid var(--line); }
+.contact-list .v { font-weight: 600; font-stretch: 90%; letter-spacing: -0.035em; font-size: clamp(1.15rem, 3.2vw, 2.8rem); line-height: 1.1; overflow-wrap: anywhere; user-select: all; }
+.copy { background: transparent; color: var(--fg); border: 1px solid var(--line); padding: 0.5rem 0.9rem; font-size: 0.75rem; letter-spacing: 0.02em; cursor: pointer; }
+.copy:hover { border-color: var(--fg); }
+.mail { display: inline-block; margin-top: 1.5rem; border: 1px solid var(--fg); padding: 0.8rem 1.4rem; }
+.mail:hover { background: var(--fg); color: var(--bg); }
+footer { padding-block: 1.6rem; border-top: 1px solid var(--line); }
+footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0.5rem 1.5rem; }
+
+@media (max-width: 860px) {
+  .top .grid5 { grid-template-columns: repeat(4, minmax(0, 1fr)); row-gap: 0.4rem; padding-top: 0.8rem; }
+  .top .mark { grid-column: 1 / -1; }
+  .top nav a { font-size: clamp(0.9rem, 4vw, 1.2rem); padding-block: 0.3rem 0.8rem; }
+  .hero .c2, .hero .c4 { grid-column: 1 / -1; }
+  .hero .grid5 { row-gap: 0.8rem; }
+  .sec > .cap:first-child, .sec .body { grid-column: 1 / -1; }
+  .cols2, .two, .skills { grid-template-columns: minmax(0, 1fr); }
+  .item a { grid-template-columns: 2.6rem minmax(0, 1fr); row-gap: 0.9rem; }
+  .item .t { grid-column: 2; }
+  .item .m { grid-column: 2; justify-items: start; text-align: left; }
+  .item .n { padding-top: 0.35rem; }
+  .aw { grid-template-columns: 2.6rem minmax(0, 1fr); }
+  .aw .p, .aw .m { grid-column: 2; }
+  .aw .m { justify-items: start; text-align: left; padding-top: 0; }
+  .item a:hover .t, .item a:focus-visible .t { transform: none; }
+  .contact-list li { grid-template-columns: minmax(0, 1fr) auto; }
+  .contact-list li > .cap { grid-column: 1 / -1; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .item .t, .item a { transition: none; }
+}
+[hidden]{display:none!important}
+
+/*SND*/
+/* Product sounds: interactive demos inside Work */
+.ps { margin-top: clamp(3rem, 7vw, 6rem); border-top: 1px solid var(--fg); padding-top: clamp(1rem, 2vw, 1.6rem); }
+.ps-head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 0.8rem 2rem; margin-bottom: clamp(1.2rem, 2.5vw, 2rem); }
+.ps-head h3 { font-size: clamp(2rem, 4.6vw, 4.2rem); display: flex; align-items: flex-start; gap: 0.15em; }
+.ps-head sup { font-size: 0.8rem; font-weight: 400; font-stretch: 100%; letter-spacing: 0.02em; line-height: 1.3; margin-top: 0.4rem; color: var(--muted); }
+.ps-cards { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: var(--gutter); }
+.ps-card { grid-column: span 4; border: 1px solid var(--line); padding: clamp(0.9rem, 1.4vw, 1.2rem); display: flex; flex-direction: column; gap: 0.8rem; min-width: 0; position: relative; background: #050505; }
+.ps-card.c-vf { grid-column: 1 / -1; }
+.ps-gh { display: flex; align-items: baseline; gap: 0.7rem; }
+.ps-name { font-size: clamp(1.5rem, 2.2vw, 2.1rem); }
+.rst { margin-left: auto; background: none; border: 0; color: var(--muted); cursor: pointer; padding: 0; font-family: var(--mono); }
+.rst:hover { color: var(--accent); }
+.ps-hint { margin: -0.45rem 0 0; }
+.ps-stage { position: relative; display: grid; place-items: center; min-height: 22rem; padding: clamp(0.9rem, 1.8vw, 1.5rem); overflow: hidden; border: 1px solid var(--line); background-color: #080808; background-image: radial-gradient(circle, #262626 1px, transparent 1.3px); background-size: 16px 16px; }
+.c-doc .ps-stage, .c-g .ps-stage, .c-glo .ps-stage { flex: 1; }
+.msg { min-height: 1.1rem; color: var(--muted); }
+.msg.bad { color: var(--accent); }
+.btn { background: var(--accent); color: #000; border: 1px solid var(--accent); padding: 0.6rem 1.1rem; font-family: var(--mono); font-size: 0.8rem; cursor: pointer; transition: transform 0.1s ease, background 0.15s ease; }
+.btn:hover { background: #ff5a3c; }
+.btn:active { transform: scale(0.97); }
+.btn.ghost { background: transparent; color: var(--fg); border-color: #3a3a3a; }
+.btn.ghost:hover { border-color: var(--fg); background: transparent; }
+.btn[disabled] { opacity: 0.45; cursor: default; }
+.pill { display: inline-flex; align-items: center; gap: 0.45rem; padding: 0.25rem 0.7rem; border: 1px solid var(--line); border-radius: 2rem; font-family: var(--mono); font-size: 0.72rem; color: var(--fg); background: #0d0d0d; }
+.led { width: 0.45rem; height: 0.45rem; border-radius: 50%; background: var(--muted); transition: background 0.2s; }
+.bell { position: relative; width: 2rem; height: 2rem; display: grid; place-items: center; border: 1px solid #333; border-radius: 50%; background: #0d0d0d; color: var(--fg); cursor: pointer; flex: none; }
+.bell:hover { border-color: var(--fg); }
+.bell .dot { position: absolute; top: 0.2rem; right: 0.25rem; width: 0.5rem; height: 0.5rem; border-radius: 50%; background: var(--accent); transition: transform 0.2s; }
+.bell.seen .dot { transform: scale(0); }
+.shake { animation: shake 0.4s; }
+@keyframes shake { 20%, 60% { transform: translateX(-5px); } 40%, 80% { transform: translateX(5px); } }
+@keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(246, 59, 26, 0.55); } 100% { box-shadow: 0 0 0 1.5rem rgba(246, 59, 26, 0); } }
+@keyframes spin { to { transform: rotate(360deg); } }
+@keyframes rise { from { opacity: 0; transform: translateY(10px); } }
+
+/* Docusign: signing window */
+.win { position: relative; width: 100%; max-width: 21rem; border: 1px solid #333; border-radius: 0.7rem; background: #0b0b0b; overflow: hidden; box-shadow: 0 1.4rem 3rem rgba(0, 0, 0, 0.6); }
+.win-bar { display: flex; align-items: center; gap: 0.7rem; padding: 0.6rem 0.8rem; border-bottom: 1px solid var(--line); }
+.win-bar .cap { flex: 1; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.dots { display: flex; gap: 0.3rem; } .dots i { width: 0.5rem; height: 0.5rem; border-radius: 50%; background: #2e2e2e; }
+.steps { display: flex; gap: 0.3rem; padding: 0.6rem 0.8rem 0; }
+.step { flex: 1; display: flex; align-items: center; gap: 0.4rem; padding-bottom: 0.45rem; border-bottom: 2px solid var(--line); font-family: var(--mono); font-size: 0.68rem; color: var(--muted); transition: all 0.25s; }
+.step b { display: grid; place-items: center; width: 1rem; height: 1rem; border-radius: 50%; border: 1px solid currentColor; font-weight: 400; font-size: 0.6rem; }
+.step.on { color: var(--fg); border-bottom-color: var(--accent); }
+.step.done { color: var(--fg); border-bottom-color: var(--fg); }
+.step.done b { background: var(--fg); color: #000; border-color: var(--fg); font-size: 0; }
+.step.done b::before { content: "✓"; font-size: 0.6rem; }
+.paper { margin: 0.7rem 0.8rem; padding: 0.9rem; background: #121212; border: 1px solid var(--line); display: grid; gap: 0.4rem; }
+.ptitle { font-size: 1.15rem; margin-bottom: 0.3rem; }
+.ln { display: block; height: 0.3rem; background: #262626; border-radius: 2px; }
+.signrow { position: relative; margin: 0.5rem 0 0.4rem; }
+.flag { position: absolute; left: -0.9rem; top: -0.55rem; z-index: 2; background: var(--accent); color: #000; padding: 0.1rem 0.45rem; font-size: 0.62rem; clip-path: polygon(0 0, 100% 0, 88% 50%, 100% 100%, 0 100%); padding-right: 0.8rem; transition: opacity 0.3s; }
+.sigfield { position: relative; display: block; width: 100%; height: 3.4rem; padding: 0.4rem 0.7rem; border: 1px dashed #666; background: rgba(246, 59, 26, 0.06); color: var(--fg); text-align: left; cursor: pointer; transition: border-color 0.2s, background 0.2s; }
+.sigfield:hover { border-color: var(--fg); }
+.sigfield .lbl { position: relative; z-index: 1; display: block; margin-top: 0.9rem; text-align: center; color: var(--muted); }
+.sigfield .req { position: absolute; right: 0.4rem; top: 0.25rem; opacity: 0; color: var(--accent); font-size: 0.62rem; }
+.sigfield svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+.sigfield path { fill: none; stroke: var(--fg); stroke-width: 2.2; stroke-linecap: round; stroke-dasharray: 300; stroke-dashoffset: 300; transition: stroke-dashoffset 0.9s ease; }
+.sigfield.signed { border-style: solid; border-color: var(--fg); background: transparent; cursor: default; }
+.sigfield.signed path { stroke-dashoffset: 0; }
+.sigfield.signed .lbl { opacity: 0; }
+.signrow:has(.signed) .flag { opacity: 0; }
+.sigfield.err { border-color: var(--accent); }
+.sigfield.err .req { opacity: 1; }
+.win-foot { display: flex; align-items: center; justify-content: space-between; gap: 0.6rem; padding: 0.7rem 0.8rem; border-top: 1px solid var(--line); }
+.win.signed-s .led { background: var(--fg); } .win.sent-s .led { background: #3ddc84; }
+.toast { position: absolute; left: 0.6rem; right: 0.6rem; top: 0.5rem; z-index: 5; display: flex; gap: 0.6rem; align-items: center; padding: 0.55rem 0.7rem; border-radius: 0.6rem; background: var(--fg); color: #000; transform: translateY(-150%); transition: transform 0.4s cubic-bezier(.3, 1.3, .5, 1); box-shadow: 0 0.8rem 2rem rgba(0, 0, 0, 0.5); }
+.toast.show { transform: none; }
+.toast b { display: block; font-size: 0.82rem; font-weight: 700; line-height: 1.2; }
+.toast em { display: block; font-style: normal; color: #555; }
+.toast .ti { display: grid; place-items: center; width: 1.7rem; height: 1.7rem; border-radius: 50%; background: var(--accent); color: #000; flex: none; }
+
+/* Google: security */
+.gdev { position: relative; width: 100%; max-width: 19rem; display: grid; justify-items: center; gap: 0.9rem; padding: 1.2rem 0; }
+.shield { position: relative; width: 11rem; height: 11rem; display: grid; place-items: center; }
+.ring { position: absolute; border-radius: 50%; border: 1px solid var(--line); transition: border-color 0.3s; }
+.ring.r1 { inset: 0; } .ring.r2 { inset: 1.1rem; } .ring.r3 { inset: 2.2rem; }
+.lockbtn { position: relative; z-index: 1; width: 6.4rem; height: 6.4rem; border-radius: 50%; border: 1px solid #3a3a3a; background: #0d0d0d; color: var(--fg); cursor: pointer; display: grid; place-items: center; transition: border-color 0.2s, color 0.2s, background 0.3s; }
+.lockbtn svg { width: 3.6rem; height: 3.6rem; }
+.lockbtn:hover { border-color: var(--fg); }
+.lockbtn .shackle { transform-origin: 66px 44px; transform: translate(0, -9px) rotate(28deg); transition: transform 0.5s cubic-bezier(.3, 1.4, .5, 1); }
+.lockbtn[aria-pressed="true"] .shackle { transform: none; }
+.lockbtn .lbody { transition: fill 0.3s; }
+.lockbtn[aria-pressed="true"] { color: var(--accent); border-color: var(--accent); background: rgba(246, 59, 26, 0.08); }
+.lockbtn[aria-pressed="true"] .lbody { fill: rgba(246, 59, 26, 0.2); }
+.gdev.locked .ring { border-color: rgba(246, 59, 26, 0.45); }
+.gdev.locked .ring.r1 { animation: ringp 2.4s ease-out infinite; }
+.gdev.locked .ring.r2 { animation: ringp 2.4s 0.4s ease-out infinite; }
+@keyframes ringp { 0% { opacity: 1; } 70%, 100% { opacity: 0.25; } }
+.gdev.locked .led { background: var(--accent); }
+.gdev .row { display: flex; flex-wrap: wrap; gap: 0.5rem; justify-content: center; }
+.ps-card.threat .ring { border-color: var(--accent); }
+.ps-card.threat .lockbtn { color: var(--accent); border-color: var(--accent); animation: pulse 0.7s ease-out 3; }
+.gbanner { position: absolute; left: 0; right: 0; top: -0.4rem; z-index: 5; display: flex; gap: 0.6rem; align-items: center; padding: 0.55rem 0.7rem; border-radius: 0.6rem; background: var(--fg); color: #000; transform: translateY(-160%); opacity: 0; pointer-events: none; transition: transform 0.4s cubic-bezier(.3, 1.3, .5, 1), opacity 0.2s; box-shadow: 0 0.8rem 2rem rgba(0, 0, 0, 0.5); text-align: left; }
+.gbanner.show { transform: none; opacity: 1; }
+.gbanner b { display: block; font-size: 0.82rem; line-height: 1.2; }
+.gbanner em { display: block; font-style: normal; color: #555; }
+.gbanner .gi { display: grid; place-items: center; width: 1.7rem; height: 1.7rem; border-radius: 50%; background: var(--accent); color: #000; flex: none; font-weight: 800; }
+
+/* Glo: find my device */
+.glo { grid-template-columns: minmax(0, 1fr); gap: 1.1rem; }
+.radar { position: relative; width: min(100%, 12.5rem); aspect-ratio: 1; border-radius: 50%; border: 1px solid #3a3a3a; background: radial-gradient(circle, transparent 31%, #2a2a2a 32%, transparent 33%), #0b0b0b; overflow: hidden; margin-inline: auto; }
+.radar .ring2 { position: absolute; inset: 20%; border-radius: 50%; border: 1px solid #2a2a2a; }
+.radar .cross { position: absolute; inset: 0; background: linear-gradient(#2a2a2a, #2a2a2a) center / 1px 100% no-repeat, linear-gradient(#2a2a2a, #2a2a2a) center / 100% 1px no-repeat; }
+.sweep { position: absolute; inset: 0; border-radius: 50%; background: conic-gradient(from 0deg, rgba(246, 59, 26, 0.65), transparent 30%); opacity: 0; }
+.glo.scanning .sweep { opacity: 1; animation: spin 1.3s linear infinite; }
+.me { position: absolute; left: 50%; top: 50%; width: 0.5rem; height: 0.5rem; margin: -0.25rem 0 0 -0.25rem; border-radius: 50%; background: var(--fg); }
+.blip { position: absolute; left: 66%; top: 27%; width: 0.9rem; height: 0.9rem; border-radius: 50%; background: var(--accent); transform: scale(0); transition: transform 0.35s cubic-bezier(.3, 1.6, .5, 1); }
+.glo.found .blip { transform: scale(1); animation: pulse 1.1s ease-out infinite; }
+.ginfo { display: grid; gap: 0.8rem; justify-items: center; }
+.gcard { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 0.7rem; width: 100%; max-width: 15rem; padding: 0.6rem 0.8rem; border: 1px solid #333; border-radius: 0.6rem; background: #0d0d0d; }
+.gcard .dist { font-size: 1.4rem; text-align: right; white-space: nowrap; }
+.sig { display: flex; align-items: flex-end; gap: 2px; height: 1rem; }
+.sig i { width: 3px; background: #2e2e2e; border-radius: 1px; transition: background 0.2s; }
+.sig i:nth-child(1) { height: 25%; } .sig i:nth-child(2) { height: 50%; } .sig i:nth-child(3) { height: 75%; } .sig i:nth-child(4) { height: 100%; }
+.sig i.on { background: var(--accent); }
+
+/* Vodafone: TV + app */
+.vf-panels { display: grid; grid-template-columns: minmax(0, 1.7fr) minmax(0, 1fr); gap: var(--gutter); }
+.vf-tv { width: 100%; max-width: 30rem; display: grid; justify-items: center; gap: 0.9rem; }
+.tv { position: relative; width: 100%; }
+.bezel { position: relative; width: 100%; aspect-ratio: 16 / 9; border: 6px solid #1c1c1c; outline: 1px solid #3a3a3a; border-radius: 0.5rem; background: #000; overflow: hidden; box-shadow: 0 1.4rem 3rem rgba(0, 0, 0, 0.6); }
+.stand { display: block; width: 28%; height: 0.35rem; margin: 0.3rem auto 0; background: #222; border-radius: 0 0 0.6rem 0.6rem; }
+.tv .glow { position: absolute; left: 50%; top: 50%; width: 30%; aspect-ratio: 1; margin: -15% 0 0 -15%; border-radius: 50%; background: radial-gradient(circle, var(--accent), transparent 70%); transform: scale(0); opacity: 0; z-index: 2; }
+.tv.booting .glow { animation: boot 1.5s ease-out forwards; }
+@keyframes boot { 0% { transform: scale(0); opacity: 1; } 100% { transform: scale(7); opacity: 0; } }
+.tv .scr { position: absolute; inset: 0; padding: 0.7rem; display: grid; gap: 0.5rem; align-content: start; background: #0b0b0b; transform: scaleY(0.01); opacity: 0; transition: transform 0.5s cubic-bezier(.6, 0, .3, 1), opacity 0.4s; }
+.tv.on .scr { transform: none; opacity: 1; transition-delay: 0.9s; }
+.hero { display: grid; gap: 0.2rem; align-content: end; min-height: 6.5rem; padding: 0.6rem 0.8rem; background: #101010; border: 1px solid var(--line); color: var(--fg); }
+.hero b { font-size: clamp(1.1rem, 2.2vw, 1.8rem); }
+.rail { display: grid; grid-template-columns: repeat(5, 1fr); gap: 0.4rem; }
+.rail i { aspect-ratio: 16 / 10; border: 1px solid var(--line); background: #151515; border-radius: 2px; }
+.power { width: 2.6rem; height: 2.6rem; border-radius: 50%; border: 1px solid #3a3a3a; background: #0d0d0d; color: var(--fg); cursor: pointer; display: grid; place-items: center; transition: all 0.2s; }
+.power:hover { border-color: var(--fg); }
+.power[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: #000; }
+.phone { position: relative; width: 12.5rem; height: 23rem; border: 6px solid #1c1c1c; outline: 1px solid #3a3a3a; border-radius: 1.8rem; padding: 1.5rem 0.7rem 0.8rem; overflow: hidden; background: #000; display: grid; box-shadow: 0 1.4rem 3rem rgba(0, 0, 0, 0.6); }
+.notch { position: absolute; top: 0.45rem; left: 50%; width: 3.6rem; height: 0.9rem; transform: translateX(-50%); border-radius: 1rem; background: #1c1c1c; z-index: 3; }
+.phone .closed { background: none; border: 0; color: var(--fg); cursor: pointer; display: grid; place-content: center; justify-items: center; gap: 0.7rem; }
+.appico { width: 3.2rem; height: 3.2rem; border-radius: 0.9rem; background: var(--accent); position: relative; }
+.appico::after { content: ""; position: absolute; inset: 0.9rem; border: 3px solid #000; border-radius: 50%; }
+.phone .app { display: none; flex-direction: column; gap: 0.5rem; }
+.phone.open .closed { display: none; }
+.phone.open .app { display: flex; animation: rise 0.5s ease-out; }
+.app-top { display: flex; align-items: center; justify-content: space-between; }
+.app-top .disp { font-size: 1.05rem; }
+.tabs { display: flex; gap: 0.3rem; }
+.tab { flex: 1; padding: 0.3rem 0; border: 1px solid var(--line); background: none; color: var(--muted); font-family: var(--mono); font-size: 0.7rem; cursor: pointer; border-radius: 1rem; }
+.tab.on { color: #000; background: var(--fg); border-color: var(--fg); }
+.scanbox { position: relative; height: 5.2rem; border: 0; background: #0f0f0f; color: var(--muted); cursor: pointer; overflow: hidden; display: grid; place-items: center; border-radius: 0.5rem; }
+.corner { position: absolute; width: 0.8rem; height: 0.8rem; border: 2px solid var(--fg); }
+.corner.tl { left: 0.4rem; top: 0.4rem; border-right: 0; border-bottom: 0; } .corner.tr { right: 0.4rem; top: 0.4rem; border-left: 0; border-bottom: 0; }
+.corner.bl { left: 0.4rem; bottom: 0.4rem; border-right: 0; border-top: 0; } .corner.br { right: 0.4rem; bottom: 0.4rem; border-left: 0; border-top: 0; }
+.scanline { position: absolute; left: 0; right: 0; top: 0; height: 2px; background: var(--accent); box-shadow: 0 0 10px var(--accent); opacity: 0; }
+.phone.scanning .scanline { opacity: 1; animation: scan 1.3s ease-in-out; }
+@keyframes scan { from { top: 0; } to { top: 100%; } }
+.picks { display: none; gap: 0.3rem; }
+.phone.scanned .picks { display: grid; animation: rise 0.4s ease-out; }
+.phone.scanned .scanbox { height: 2.2rem; }
+.pick { text-align: left; padding: 0.4rem 0.5rem; border: 1px solid var(--line); border-radius: 0.4rem; background: none; color: var(--fg); font-family: var(--mono); font-size: 0.72rem; cursor: pointer; }
+.pick:hover { border-color: var(--fg); }
+.pick.on { background: var(--accent); border-color: var(--accent); color: #000; }
+.phone .btn { margin-top: auto; border-radius: 0.5rem; }
+.notif { position: absolute; left: 0.5rem; right: 0.5rem; top: 1.6rem; padding: 0.5rem 0.6rem; background: var(--fg); color: #000; border-radius: 0.6rem; transform: translateY(-300%); transition: transform 0.35s cubic-bezier(.3, 1.3, .5, 1); z-index: 2; }
+.notif.show { transform: none; }
+
+/* Footer: live waveform + sound chips */
+.ps-foot { display: grid; gap: 0.5rem; border-top: 1px solid var(--line); padding-top: 0.8rem; margin-top: auto; }
+.ps-foot .wf { height: 1.8rem; display: flex; align-items: center; gap: 1px; }
+.ps-foot .wf i { flex: 1 1 0; min-width: 1px; background: #262626; border-radius: 1px; transition: height 0.2s; }
+.ps-foot .wf i.on { background: var(--accent); }
+.chips { display: flex; flex-wrap: wrap; gap: 0.3rem; }
+.chip { border: 1px solid #333; background: none; color: var(--muted); padding: 0.25rem 0.65rem; border-radius: 1rem; font-family: var(--mono); font-size: 0.72rem; cursor: pointer; }
+.chip:hover { color: var(--fg); border-color: var(--fg); }
+.chip.playing { background: var(--accent); border-color: var(--accent); color: #000; }
+
+@media (max-width: 1100px) {
+  .ps-card.c-doc, .ps-card.c-g { grid-column: span 6; }
+  .ps-card.c-glo { grid-column: 1 / -1; }
+  .glo { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: center; }
+  .glo .ginfo { justify-items: start; }
+}
+@media (max-width: 760px) {
+  .ps-card.c-doc, .ps-card.c-g { grid-column: 1 / -1; }
+  .glo { grid-template-columns: minmax(0, 1fr); } .glo .ginfo { justify-items: center; }
+  .vf-panels { grid-template-columns: minmax(0, 1fr); }
+  .ps-stage { min-height: 0; }
+}
+@media (prefers-reduced-motion: reduce) { .glo.scanning .sweep, .glo.found .blip, .ps-card.threat .lockbtn, .tv.booting .glow, .phone.scanning .scanline, .gdev.locked .ring { animation: none; } }
+/*/SND*/
+</style>
+</head>
+<body>
+
+
+<header class="top">
+  <div class="wrap">
+    <div class="grid5">
+      <a class="mark" href="#top" aria-label="Daniele Pellegrini, back to top">Daniele<br>Pellegrini</a>
+      <nav aria-label="Sections">
+        <a href="#about">About</a>
+        <a href="#work">Work</a>
+        <a href="#awards">Awards</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </div>
+  </div>
+</header>
+
+<main id="top">
+  <section class="hero">
+    <div class="wrap">
+      <div class="grid5">
+        <p class="cap c2">Senior Sound Designer<br>&amp; Creative Producer</p>
+        <p class="cap c4">Munich</p>
+      </div>
+      <h1 class="disp"><span>Daniele</span><span>Pellegrini</span></h1>
+    </div>
+  </section>
+
+  <section class="about" id="about" style="padding-top:0">
+    <div class="wrap sec">
+      <p class="cap">(About)</p>
+      <div class="body">
+        <h2 class="disp">Senior Sound Designer &amp; Creative Producer</h2>
+        <div class="cols2">
+          <p>Award-winning Senior Sound Designer &amp; Creative Producer (Red Dot, iF Design, Transform Awards Europe &amp; North America). I design strategy-led, resonant sonic ecosystems for global brands, managing end-to-end production with a sharp eye for detail.</p>
+          <p>Passionate about discovering perfection in the imperfect, I specialize in translating niche, technical sound craft into engaging, pop-cultural experiences. Experienced in leading cross-functional teams, I bridge creative vision with high-impact production execution.</p>
+        </div>
+        <ul class="assets cap" aria-label="Audio assets I develop">
+          <li>Sonic DNAs</li><li>Sonic logos</li><li>UX-UI sounds</li><li>Soundscapes</li><li>Podcast sounds</li><li>Event sounds</li><li>Campaign tracks</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="work" id="work" aria-label="Select work">
+    <div class="wrap">
+      <div class="work-head">
+        <h2 class="disp">Work<sup id="tot">(18)</sup></h2>
+        <div class="filters" role="group" aria-label="Filter projects">
+          <button class="filter" type="button" id="f-all" data-filter="all" aria-pressed="true">All (18)</button>
+          <button class="filter" type="button" id="f-music" data-filter="music" aria-pressed="false">Commercial music (12)</button>
+          <button class="filter" type="button" id="f-logo" data-filter="logo" aria-pressed="false">Sonic logos (6)</button>
+        </div>
+      </div>
+      <ul class="index" id="index">
+        <li class="item" data-kind="music"><a href="https://vimeo.com/1240175241" target="_blank" rel="noopener" data-vimeo="1240175241" aria-label="The new CLS, Mercedes-Benz, watch on Vimeo">
+          <span class="n cap dim">(01)</span>
+          <span class="t"><span class="tt">The new CLS</span></span>
+          <span class="m"><span class="cap">Mercedes-Benz</span><span class="cap dim">Commercial music</span><span class="cap go">Watch ↗</span></span>
+        </a></li>
+        <li class="item" data-kind="music"><a href="https://vimeo.com/1240175205" target="_blank" rel="noopener" data-vimeo="1240175205" aria-label="The new EQA, Mercedes-Benz, watch on Vimeo">
+          <span class="n cap dim">(02)</span>
+          <span class="t"><span class="tt">The new EQA</span><span class="sub cap dim">Switch on to stand out</span></span>
+          <span class="m"><span class="cap">Mercedes-Benz</span><span class="cap dim">Commercial music</span><span class="cap go">Watch ↗</span></span>
+        </a></li>
+        <li class="item" data-kind="music"><a href="https://vimeo.com/1240175236" target="_blank" rel="noopener" data-vimeo="1240175236" aria-label="The EQB, Mercedes-Benz, watch on Vimeo">
+          <span class="n cap dim">(03)</span>
+          <span class="t"><span class="tt">The EQB</span><span class="sub cap dim">This is for new dimensions</span></span>
+          <span class="m"><span class="cap">Mercedes-Benz</span><span class="cap dim">Commercial music</span><span class="cap go">Watch ↗</span></span>
+        </a></li>
+        <li class="item" data-kind="music"><a href="https://vimeo.com/1240175232" target="_blank" rel="noopener" data-vimeo="1240175232" aria-label="The EQE, Mercedes-Benz, watch on Vimeo">
+          <span class="n cap dim">(04)</span>
+          <span class="t"><span class="tt">The EQE</span><span class="sub cap dim">This is for all senses</span></span>
+          <span class="m"><span class="cap">Mercedes-Benz</span><span class="cap dim">Commercial music</span><span class="cap go">Watch ↗</span></span>
+        </a></li>
+        <li class="item" data-kind="music"><a href="https://vimeo.com/1240175209" target="_blank" rel="noopener" data-vimeo="1240175209" aria-label="The Hunt for Glory, Mercedes-Benz, watch on Vimeo">
+          <span class="n cap dim">(05)</span>
+          <span class="t"><span class="tt">The Hunt for Glory</span><span class="sub cap dim">Mercedes × League of Legends</span></span>
+          <span class="m"><span class="cap">Mercedes-Benz</span><span class="cap dim">Commercial music</span><span class="cap go">Watch ↗</span></span>
+        </a></li>
+        <li class="item" data-kind="music"><a href="https://vimeo.com/1240497846" target="_blank" rel="noopener" data-vimeo="1240497846" aria-label="AWAKE, Mercedes-Benz, watch on Vimeo">
+          <span class="n cap dim">(06)</span>
+          <span class="t"><span class="tt">AWAKE</span></span>
+          <span class="m"><span class="cap">Mercedes-Benz</span><span class="cap dim">Commercial music</span><span class="cap go">Watch ↗</span></span>
+        </a></li>
+        <li class="item" data-kind="music"><a href="https://vimeo.com/1240175158" target="_blank" rel="noopener" data-vimeo="1240175158" aria-label="Copa América 2021, Mastercard, watch on Vimeo">
+          <span class="n cap dim">(07)</span>
+          <span class="t"><span class="tt">Copa América 2021</span><span class="sub cap dim">Vive la pasión de la CONMEBOL Copa América</span></span>
+          <span class="m"><span class="cap">Mastercard</span><span class="cap dim">Commercial music</span><span class="cap go">Watch ↗</span></span>
+        </a></li>
+        <li class="item" data-kind="music"><a href="https://vimeo.com/1240175254" target="_blank" rel="noopener" data-vimeo="1240175254" aria-label="McLaren × Mastercard Anthem, Mastercard, watch on Vimeo">
+          <span class="n cap dim">(08)</span>
+          <span class="t"><span class="tt">McLaren × Mastercard Anthem</span></span>
+          <span class="m"><span class="cap">Mastercard</span><span class="cap dim">Commercial music</span><span class="cap go">Watch ↗</span></span>
+        </a></li>
+        <li class="item" data-kind="music"><a href="https://vimeo.com/1240175190" target="_blank" rel="noopener" data-vimeo="1240175190" aria-label="Colours that come alive, Avon, watch on Vimeo">
+          <span class="n cap dim">(09)</span>
+          <span class="t"><span class="tt">Colours that come alive</span><span class="sub cap dim">Ultra Lipstick</span></span>
+          <span class="m"><span class="cap">Avon</span><span class="cap dim">Commercial music</span><span class="cap go">Watch ↗</span></span>
+        </a></li>
+        <li class="item" data-kind="music"><a href="https://vimeo.com/1240175157" target="_blank" rel="noopener" data-vimeo="1240175157" aria-label="Super Bowl LVII, Avocados From Mexico, watch on Vimeo">
+          <span class="n cap dim">(10)</span>
+          <span class="t"><span class="tt">Super Bowl LVII</span><span class="sub cap dim">Adam and Eve</span></span>
+          <span class="m"><span class="cap">Avocados From Mexico</span><span class="cap dim">Commercial music</span><span class="cap red">Red Dot 2023</span><span class="cap go">Watch ↗</span></span>
+        </a></li>
+        <li class="item" data-kind="music"><a href="https://vimeo.com/1240303124" target="_blank" rel="noopener" data-vimeo="1240303124" aria-label="Dove MenCare, Dove, watch on Vimeo">
+          <span class="n cap dim">(11)</span>
+          <span class="t"><span class="tt">Dove MenCare</span><span class="sub cap dim">Relaxing Plant-Based Body Wash</span></span>
+          <span class="m"><span class="cap">Dove</span><span class="cap dim">Commercial music</span><span class="cap go">Watch ↗</span></span>
+        </a></li>
+        <li class="item" data-kind="music"><a href="https://vimeo.com/1240303125" target="_blank" rel="noopener" data-vimeo="1240303125" aria-label="Glo HyperPro, Glo, watch on Vimeo">
+          <span class="n cap dim">(12)</span>
+          <span class="t"><span class="tt">Glo HyperPro</span></span>
+          <span class="m"><span class="cap">Glo</span><span class="cap dim">Commercial music</span><span class="cap go">Watch ↗</span></span>
+        </a></li>
+        <li class="item" data-kind="logo"><a href="https://vimeo.com/1240175260" target="_blank" rel="noopener" data-vimeo="1240175260" aria-label="The Sound of Vodafone, Vodafone, watch on Vimeo">
+          <span class="n cap dim">(13)</span>
+          <span class="t"><span class="tt">The Sound of Vodafone</span></span>
+          <span class="m"><span class="cap">Vodafone</span><span class="cap dim">Sonic logo</span><span class="cap red">iF Design Award 2025</span><span class="cap go">Watch ↗</span></span>
+        </a></li>
+        <li class="item" data-kind="logo"><a href="https://vimeo.com/1240175245" target="_blank" rel="noopener" data-vimeo="1240175245" aria-label="Vodafone Sonic Logo, Vodafone, watch on Vimeo">
+          <span class="n cap dim">(14)</span>
+          <span class="t"><span class="tt">Vodafone Sonic Logo</span></span>
+          <span class="m"><span class="cap">Vodafone</span><span class="cap dim">Sonic logo</span><span class="cap go">Watch ↗</span></span>
+        </a></li>
+        <li class="item" data-kind="logo"><a href="https://vimeo.com/1240175156" target="_blank" rel="noopener" data-vimeo="1240175156" aria-label="The Sound of Moeve, Moeve, watch on Vimeo">
+          <span class="n cap dim">(15)</span>
+          <span class="t"><span class="tt">The Sound of Moeve</span></span>
+          <span class="m"><span class="cap">Moeve</span><span class="cap dim">Sonic logo</span><span class="cap go">Watch ↗</span></span>
+        </a></li>
+        <li class="item" data-kind="logo"><a href="https://vimeo.com/1240175160" target="_blank" rel="noopener" data-vimeo="1240175160" aria-label="Orchestre de Chambre de Paris Sonic Logo, Orchestre de Chambre de Paris, watch on Vimeo">
+          <span class="n cap dim">(16)</span>
+          <span class="t"><span class="tt">Orchestre de Chambre de Paris Sonic Logo</span></span>
+          <span class="m"><span class="cap">Orchestre de Chambre de Paris</span><span class="cap dim">Sonic logo</span><span class="cap go">Watch ↗</span></span>
+        </a></li>
+        <li class="item" data-kind="logo"><a href="https://vimeo.com/1240175269" target="_blank" rel="noopener" data-vimeo="1240175269" aria-label="Uber Sonic Logo, Uber, watch on Vimeo">
+          <span class="n cap dim">(17)</span>
+          <span class="t"><span class="tt">Uber Sonic Logo</span></span>
+          <span class="m"><span class="cap">Uber</span><span class="cap dim">Sonic logo</span><span class="cap go">Watch ↗</span></span>
+        </a></li>
+        <li class="item" data-kind="logo"><a href="https://vimeo.com/1240303123" target="_blank" rel="noopener" data-vimeo="1240303123" aria-label="IHH Healthcare Case Film, IHH Healthcare, watch on Vimeo">
+          <span class="n cap dim">(18)</span>
+          <span class="t"><span class="tt">IHH Healthcare Case Film</span></span>
+          <span class="m"><span class="cap">IHH Healthcare</span><span class="cap dim">Case film</span><span class="cap go">Watch ↗</span></span>
+        </a></li>
+      </ul>
+      <p class="cap dim count-note">Select films, produced at AMP. More on request.</p>
+      <!--SND-->
+      <div class="ps" id="sounds">
+        <div class="ps-head">
+          <h3 class="disp">Product sounds<sup>(18)</sup></h3>
+          <span class="cap dim">Interactive demos of the UX/UI sounds I designed. Tap, sign, lock, search.</span>
+        </div>
+        <div class="ps-cards">
+
+        <article class="ps-card c-doc" data-card="docusign">
+          <div class="ps-gh"><span class="ps-name disp">Docusign</span><span class="cap dim">4 sounds</span><button class="rst cap" type="button" data-act="reset">↺ Reset</button></div><p class="cap dim ps-hint">Digital signature. Ring, sign, send.</p>
+          <div class="ps-stage">
+            <div class="win">
+              <div class="win-bar"><span class="dots"><i></i><i></i><i></i></span><span class="cap">Service Agreement.pdf</span><button class="bell" type="button" data-act="doc-bell" aria-label="Notifications"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 17V11a6 6 0 0 1 12 0v6l1.5 2h-15z"/><path d="M10 21h4"/></svg><i class="dot"></i></button></div>
+              <div class="steps" data-r="steps"><span class="step done"><b>1</b>Review</span><span class="step on"><b>2</b>Sign</span><span class="step"><b>3</b>Send</span></div>
+              <div class="paper">
+                <div class="disp ptitle">Service Agreement</div>
+                <span class="ln" style="width:92%"></span><span class="ln" style="width:78%"></span><span class="ln" style="width:86%"></span>
+                <div class="signrow"><span class="flag cap">Sign</span>
+                  <button class="sigfield" type="button" data-act="doc-sign" aria-label="Sign here"><span class="cap lbl">Click to sign</span><svg viewBox="0 0 130 56" preserveAspectRatio="xMidYMid meet" aria-hidden="true"><path d="M10 40 C22 8 32 8 36 32 S50 46 58 24 S76 8 82 30 S98 42 120 16"/></svg><span class="req cap">Required</span></button>
+                </div>
+                <span class="ln" style="width:64%"></span>
+              </div>
+              <div class="win-foot"><span class="pill"><i class="led"></i><span data-r="doc-status">Draft</span></span><button class="btn" type="button" data-act="doc-send" data-r="doc-send">Send</button></div>
+              <div class="toast" data-r="doc-toast"><span class="ti"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 17V11a6 6 0 0 1 12 0v6l1.5 2h-15z"/><path d="M10 21h4"/></svg></span><span><b>Signature requested</b><em class="cap">Anna Rossi · just now</em></span></div>
+            </div>
+          </div>
+          <span class="msg cap" data-msg></span>
+          <div class="ps-foot"><div class="wf" aria-hidden="true"><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i></div><div class="ps-now cap dim" data-now>Tap the interface, or pick a sound</div><div class="chips"><button class="chip" type="button" data-snd="docusign-send">Send</button><button class="chip" type="button" data-snd="docusign-confirmation">Confirmation</button><button class="chip" type="button" data-snd="docusign-notification">Notification</button><button class="chip" type="button" data-snd="docusign-error">Error</button></div></div>
+        </article>
+
+        <article class="ps-card c-g" data-card="google">
+          <div class="ps-gh"><span class="ps-name disp">Google</span><span class="cap dim">3 sounds</span><button class="rst cap" type="button" data-act="reset">↺ Reset</button></div><p class="cap dim ps-hint">Cyber security. Lock it, test it, report it.</p>
+          <div class="ps-stage">
+            <div class="gdev">
+              <div class="gbanner" data-r="g-banner"><span class="gi" data-r="g-icon"></span><span><b data-r="g-btitle">Phishing link blocked</b><em class="cap" data-r="g-bsub">accounts-verify.co</em></span></div>
+              <div class="shield">
+                <span class="ring r1"></span><span class="ring r2"></span><span class="ring r3"></span>
+                <button class="lockbtn" type="button" data-act="g-lock" aria-pressed="false" aria-label="Lock">
+                  <svg viewBox="0 0 96 96" width="92" height="92" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><g class="shackle"><path d="M30 44 V32 a18 18 0 0 1 36 0 V44"/></g><rect class="lbody" x="20" y="44" width="56" height="38" rx="7"/><circle cx="48" cy="60" r="4.5" fill="currentColor" stroke="none"/><path d="M48 64 v8" /></svg>
+                </button>
+              </div>
+              <span class="pill"><i class="led"></i><span data-r="g-state">Unlocked</span></span>
+              <div class="row"><button class="btn ghost" type="button" data-act="g-alert">Simulate threat</button><button class="btn ghost" type="button" data-act="g-report">Report</button></div>
+            </div>
+          </div>
+          <span class="msg cap" data-msg></span>
+          <div class="ps-foot"><div class="wf" aria-hidden="true"><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i></div><div class="ps-now cap dim" data-now>Tap the interface, or pick a sound</div><div class="chips"><button class="chip" type="button" data-snd="google-lock">Lock</button><button class="chip" type="button" data-snd="google-alert">Alert</button><button class="chip" type="button" data-snd="google-report">Report</button></div></div>
+        </article>
+
+        <article class="ps-card c-glo" data-card="glo">
+          <div class="ps-gh"><span class="ps-name disp">Glo</span><span class="cap dim">2 sounds</span><button class="rst cap" type="button" data-act="reset">↺ Reset</button></div><p class="cap dim ps-hint">Find my device. Let sound guide you.</p>
+          <div class="ps-stage glo">
+            <div class="radar" aria-hidden="true"><span class="cross"></span><span class="ring2"></span><span class="sweep"></span><span class="me"></span><span class="blip"></span></div>
+            <div class="ginfo">
+              <div class="gcard"><span class="cap dim">Nearby</span><div class="disp dist" data-r="glo-dist">—</div><span class="sig" data-r="glo-sig" aria-hidden="true"><i></i><i></i><i></i><i></i></span></div>
+              <button class="btn" type="button" data-act="glo-find" data-r="glo-btn">Find my device</button>
+            </div>
+          </div>
+          <span class="msg cap" data-msg></span>
+          <div class="ps-foot"><div class="wf" aria-hidden="true"><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i></div><div class="ps-now cap dim" data-now>Tap the interface, or pick a sound</div><div class="chips"><button class="chip" type="button" data-snd="glo-start-search">Start search</button><button class="chip" type="button" data-snd="glo-end-search">End search</button></div></div>
+        </article>
+
+        <article class="ps-card c-vf" data-card="vodafone">
+          <div class="ps-gh"><span class="ps-name disp">Vodafone</span><span class="cap dim">9 sounds</span><button class="rst cap" type="button" data-act="reset">↺ Reset</button></div><p class="cap dim ps-hint">Power the TV on. Open the app. Scan, pick, confirm.</p>
+          <div class="vf-panels">
+            <div class="ps-stage">
+              <div class="vf-tv">
+                <div class="tv" data-r="tv"><div class="bezel"><div class="glow"></div><div class="scr"><div class="hero"><span class="cap">Welcome to</span><b class="disp">Vodafone TV</b></div><div class="rail"><i></i><i></i><i></i><i></i><i></i></div><div class="rail"><i></i><i></i><i></i><i></i><i></i></div></div></div><span class="stand"></span></div>
+                <button class="power" type="button" data-act="v-power" aria-pressed="false" aria-label="TV power"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M12 3v8"/><path d="M6.4 6.8a8 8 0 1 0 11.2 0"/></svg></button>
+              </div>
+            </div>
+            <div class="ps-stage">
+              <div class="phone" data-r="phone">
+                <span class="notch"></span>
+                <button class="closed" type="button" data-act="v-open"><span class="appico"></span><span class="cap">Open app</span></button>
+                <div class="app">
+                  <div class="notif cap" data-r="notif">New offer for you</div>
+                  <div class="app-top"><span class="disp">My account</span><button class="bell" type="button" data-act="v-bell" aria-label="Notifications"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 17V11a6 6 0 0 1 12 0v6l1.5 2h-15z"/><path d="M10 21h4"/></svg></button></div>
+                  <div class="tabs"><button class="tab on" type="button" data-act="v-tab">Usage</button><button class="tab" type="button" data-act="v-tab">Plans</button><button class="tab" type="button" data-act="v-tab">Help</button></div>
+                  <button class="scanbox" type="button" data-act="v-scan" aria-label="Scan"><span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span><span class="scanline"></span><span class="cap">Scan</span></button>
+                  <div class="picks"><button class="pick" type="button" data-act="v-pick">5 GB data pack</button><button class="pick" type="button" data-act="v-pick">Roaming pass</button><button class="pick" type="button" data-act="v-pick">Streaming add-on</button></div>
+                  <button class="btn" type="button" data-act="v-confirm">Confirm</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <span class="msg cap" data-msg></span>
+          <div class="ps-foot"><div class="wf" aria-hidden="true"><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i><i style="height:8%"></i></div><div class="ps-now cap dim" data-now>Tap the interface, or pick a sound</div><div class="chips"><button class="chip" type="button" data-snd="vodafone-vtv-startup">VTV start-up</button><button class="chip" type="button" data-snd="vodafone-vtv-shutdown">VTV shutdown</button><button class="chip" type="button" data-snd="vodafone-app-startup">App start-up</button><button class="chip" type="button" data-snd="vodafone-app-interaction">App interaction</button><button class="chip" type="button" data-snd="vodafone-scan">Scan</button><button class="chip" type="button" data-snd="vodafone-scan-select">Scan select</button><button class="chip" type="button" data-snd="vodafone-confirmation">Confirmation</button><button class="chip" type="button" data-snd="vodafone-notification">Notification</button><button class="chip" type="button" data-snd="vodafone-failure">Failure</button></div></div>
+        </article>
+
+        </div>
+      </div>
+      <!--/SND-->
+    </div>
+  </section>
+
+  <section id="awards" style="padding-top:0">
+    <div class="wrap">
+      <div class="work-head">
+        <h2 class="disp">Awards<sup id="atot">(30)</sup></h2>
+        <div class="filters" role="group" aria-label="Filter awards">
+          <button class="afilter" type="button" id="a-all" data-afilter="all" aria-pressed="true">All (30)</button>
+          <button class="afilter" type="button" id="a-reddot" data-afilter="reddot" aria-pressed="false">Red Dot (13)</button>
+          <button class="afilter" type="button" id="a-transform" data-afilter="transform" aria-pressed="false">Transform (11)</button>
+          <button class="afilter" type="button" id="a-other" data-afilter="other" aria-pressed="false">Other (6)</button>
+        </div>
+      </div>
+      <ul class="awards" id="awards-list">
+          <li class="aw" data-body="transform"><span class="y cap">2026</span><span class="p"><span class="pt">The Sound of Oscar Mayer</span><span class="cap dim">Oscar Mayer · Best Sonic Brand Evolution</span></span><span class="m"><span class="cap">Transform Awards North America</span><span class="cap red">Silver</span></span></li>
+          <li class="aw" data-body="transform"><span class="y cap">2026</span><span class="p"><span class="pt">Team Priceless: Mastercard &amp; McLaren</span><span class="cap dim">Mastercard · Best Sonic Brand Activation</span></span><span class="m"><span class="cap">Transform Awards North America</span><span class="cap red">Gold</span></span></li>
+          <li class="aw" data-body="other"><span class="y cap">2026</span><span class="p"><span class="pt">Best Audio Branding 2026</span><span class="cap dim">Web Design / No-code Design</span></span><span class="m"><span class="cap">Awwwards</span><span class="cap red">Honorable Mention</span></span></li>
+          <li class="aw" data-body="other"><span class="y cap">2025</span><span class="p"><span class="pt">Multisensorial rebrand of Elica</span><span class="cap dim">Elica</span></span><span class="m"><span class="cap">ADCI Art Directors Club Italiano Awards 2025</span><span class="cap red">Silver</span></span></li>
+          <li class="aw" data-body="other"><span class="y cap">2025</span><span class="p"><span class="pt">Vodafone x Sonic Hub</span><span class="cap dim">Vodafone · Best Use of Audio Technology</span></span><span class="m"><span class="cap">The Wires</span></span></li>
+          <li class="aw" data-body="other"><span class="y cap">2025</span><span class="p"><span class="pt">Saudia Sonic Evolution</span><span class="cap dim">Saudia · Sonic</span></span><span class="m"><span class="cap">Brand Impact Awards</span><span class="cap red">Bronze</span></span></li>
+          <li class="aw" data-body="reddot"><span class="y cap">2025</span><span class="p"><span class="pt">The Sound of Uber</span><span class="cap dim">Uber · Sound Design / Audio Logo</span></span><span class="m"><span class="cap">Red Dot Brand &amp; Communication Design</span></span></li>
+          <li class="aw" data-body="transform"><span class="y cap">2025</span><span class="p"><span class="pt">Mastercard: Sonic Brand Evolution</span><span class="cap dim">Mastercard · Best Sonic Brand Evolution</span></span><span class="m"><span class="cap">Transform Awards North America</span><span class="cap red">Bronze</span></span></li>
+          <li class="aw" data-body="transform"><span class="y cap">2025</span><span class="p"><span class="pt">The Sound of Docusign</span><span class="cap dim">Docusign · Best Audio Brand</span></span><span class="m"><span class="cap">Transform Awards North America</span><span class="cap red">Highly Commended</span></span></li>
+          <li class="aw" data-body="transform"><span class="y cap">2025</span><span class="p"><span class="pt">The Sound of Uber</span><span class="cap dim">Uber · Best Audio Brand</span></span><span class="m"><span class="cap">Transform Awards North America</span><span class="cap red">Bronze</span></span></li>
+          <li class="aw" data-body="transform"><span class="y cap">2025</span><span class="p"><span class="pt">The Sound of Saudia</span><span class="cap dim">Saudia · Best Sonic Brand Evolution</span></span><span class="m"><span class="cap">Transform Awards MEA</span><span class="cap red">Silver</span></span></li>
+          <li class="aw" data-body="other"><span class="y cap">2025</span><span class="p"><span class="pt">The Sound of Vodafone</span><span class="cap dim">Vodafone · Sound Branding</span></span><span class="m"><span class="cap">iF Design Award</span></span></li>
+          <li class="aw" data-body="other"><span class="y cap">2024</span><span class="p"><span class="pt">St. Jude Sonic Branding, Broadcast Music Compilation</span><span class="cap dim">ALSAC / St. Jude Children&#x27;s Research Hospital · Musical Composition / Arrangement</span></span><span class="m"><span class="cap">Nashville/Midsouth Emmy Awards</span><span class="cap red">Emmy</span></span></li>
+          <li class="aw" data-body="transform"><span class="y cap">2024</span><span class="p"><span class="pt">The Sound of Saudia</span><span class="cap dim">Saudia · Best Use of Audio Branding</span></span><span class="m"><span class="cap">Transform Awards MEA</span><span class="cap red">Bronze</span></span></li>
+          <li class="aw" data-body="transform"><span class="y cap">2023</span><span class="p"><span class="pt">Feeladelphia “Can’t fake it”</span><span class="cap dim">Philadelphia Cream Cheese · Best use of audio branding</span></span><span class="m"><span class="cap">Transform Awards North America</span><span class="cap red">Silver</span></span></li>
+          <li class="aw" data-body="transform"><span class="y cap">2023</span><span class="p"><span class="pt">The Sound of Responsibility</span><span class="cap dim">Zurich Group Germany · Best use of audio branding</span></span><span class="m"><span class="cap">Transform Awards Europe</span><span class="cap red">Bronze</span></span></li>
+          <li class="aw" data-body="reddot"><span class="y cap">2023</span><span class="p"><span class="pt">The Sound of Zurich Group Germany</span><span class="cap dim">Zurich Group Germany · Corporate Sound Concept</span></span><span class="m"><span class="cap">Red Dot Communication Design</span></span></li>
+          <li class="aw" data-body="reddot"><span class="y cap">2023</span><span class="p"><span class="pt">The Sound of Responsibility</span><span class="cap dim">Zurich Group Germany · Audio Logo</span></span><span class="m"><span class="cap">Red Dot Communication Design</span></span></li>
+          <li class="aw" data-body="reddot"><span class="y cap">2023</span><span class="p"><span class="pt">The Sound of Vuse</span><span class="cap dim">Vuse · Corporate Sound Concept</span></span><span class="m"><span class="cap">Red Dot Communication Design</span></span></li>
+          <li class="aw" data-body="reddot"><span class="y cap">2023</span><span class="p"><span class="pt">The Sound of Telenor</span><span class="cap dim">Telenor · Corporate Sound Concept</span></span><span class="m"><span class="cap">Red Dot Communication Design</span></span></li>
+          <li class="aw" data-body="reddot"><span class="y cap">2023</span><span class="p"><span class="pt">Rethinking the sound of a mobile generation</span><span class="cap dim">Share Now · Corporate Sound Concept, Global Sonic Identity</span></span><span class="m"><span class="cap">Red Dot Communication Design</span></span></li>
+          <li class="aw" data-body="reddot"><span class="y cap">2023</span><span class="p"><span class="pt">“Awake” by Mercedes-Benz: A short film</span><span class="cap dim">Mercedes-Benz · Cinematic Sound Concept</span></span><span class="m"><span class="cap">Red Dot Communication Design</span></span></li>
+          <li class="aw" data-body="reddot"><span class="y cap">2023</span><span class="p"><span class="pt">Digital World Premiere EQE SUV</span><span class="cap dim">Mercedes-Benz · Commercial Sound</span></span><span class="m"><span class="cap">Red Dot Communication Design</span></span></li>
+          <li class="aw" data-body="reddot"><span class="y cap">2023</span><span class="p"><span class="pt">Digital World Premiere E-Class</span><span class="cap dim">Mercedes-Benz · Commercial Sound</span></span><span class="m"><span class="cap">Red Dot Communication Design</span></span></li>
+          <li class="aw" data-body="reddot"><span class="y cap">2023</span><span class="p"><span class="pt">Feeladelphia “Can’t fake it”</span><span class="cap dim">Philadelphia Cream Cheese · Soundscapes</span></span><span class="m"><span class="cap">Red Dot Communication Design</span></span></li>
+          <li class="aw" data-body="reddot"><span class="y cap">2023</span><span class="p"><span class="pt">The Sound of Allianz Global Investors</span><span class="cap dim">Allianz Global Investors · Audio Logo</span></span><span class="m"><span class="cap">Red Dot Communication Design</span></span></li>
+          <li class="aw" data-body="reddot"><span class="y cap">2023</span><span class="p"><span class="pt">Avocados From Mexico at the Super Bowl</span><span class="cap dim">Avocados From Mexico · Commercial Sound</span></span><span class="m"><span class="cap">Red Dot Communication Design</span></span></li>
+          <li class="aw" data-body="reddot"><span class="y cap">2021</span><span class="p"><span class="pt">The Sound of Mastercard</span><span class="cap dim">Mastercard · Corporate Sound Concept, Global Sonic Identity</span></span><span class="m"><span class="cap">Red Dot Communication Design</span></span></li>
+          <li class="aw" data-body="transform"><span class="y cap">2020</span><span class="p"><span class="pt">The Sound of Deloitte</span><span class="cap dim">Deloitte · Best use of audio brand</span></span><span class="m"><span class="cap">Transform Awards North America</span><span class="cap red">Gold</span></span></li>
+          <li class="aw" data-body="transform"><span class="y cap">2020</span><span class="p"><span class="pt">The Sound of Mastercard</span><span class="cap dim">Mastercard · Best use of audio brand</span></span><span class="m"><span class="cap">Transform Awards Europe</span><span class="cap red">Gold</span></span></li>
+      </ul>
+      <p class="cap dim count-note">30 awards and recognitions.</p>
+    </div>
+  </section>
+
+  <section id="clients" style="padding-top:0">
+    <div class="wrap sec">
+      <p class="cap">(Clients)</p>
+      <div class="body">
+        <ul class="clients">
+          <li>ADAC</li><li>Alinma</li><li>Allianz GI</li><li>Avocados From Mexico</li><li>Avon</li><li>Deloitte</li><li>Docusign</li><li>Elica</li><li>Emirates NBD</li><li>ENI</li><li>Ernst &amp; Young</li><li>Erste Bank</li><li>Expo 2030</li><li>Forcepoint</li><li>Funke</li><li>FUSO</li><li>Gates Foundation</li><li>GCA</li><li>Geberit</li><li>Generali</li><li>GetYourGuide</li><li>Gillette</li><li>Glo</li><li>Google</li><li>GSK</li><li>Haleon</li><li>Hassana</li><li>Health 100</li><li>Heineken</li><li>Heinemann</li><li>Hellmann&#x27;s</li><li>HelpChat</li><li>Hilton</li><li>HSBC</li><li>Ibtikar</li><li>IHH Healthcare</li><li>illy</li><li>Indeed</li><li>IXDS</li><li>JLL</li><li>Johnson &amp; Johnson</li><li>Kaefer</li><li>KFC</li><li>Kit Kat</li><li>Klarna</li><li>Kraft Heinz</li><li>Lambienairn</li><li>Lay&#x27;s</li><li>Lidl</li><li>Lilly</li><li>Linde</li><li>L&#x27;Oréal</li><li>Mastercard</li><li>Mazda</li><li>Mercedes-Benz</li><li>Moeve</li><li>Mondelez</li><li>More Nutrition</li><li>Munich Re</li><li>Nestlé</li><li>Netflix</li><li>NewRelease</li><li>Nibble</li><li>Noerr</li><li>Nubank</li><li>ÖAMTC</li><li>OMNI (BAT)</li><li>OnStar</li><li>Opella</li><li>Oral-B</li><li>Orchestre de Chambre de Paris</li><li>Oscar Mayer</li><li>Ottava</li><li>Pearson</li><li>Pentagram</li><li>PepsiCo</li><li>Piraeus Bank</li><li>Porsche</li><li>Reese&#x27;s</li><li>reMarkable</li><li>RUA</li><li>SAAB</li><li>Sadafco</li><li>Sakani</li><li>Sana Kliniken</li><li>SAP</li><li>Saudia</li><li>Schindler</li><li>Senseo</li><li>Sensodyne</li><li>Share Now</li><li>Shell</li><li>SMBC Indonesia</li><li>Spectrum-VCCP</li><li>Stella Artois</li><li>STEM</li><li>St. Jude</li><li>Swedbank</li><li>TCCC</li><li>Telenor</li><li>Tesco</li><li>The Fresh Market</li><li>Toyota</li><li>Triumph</li><li>Tuborg</li><li>Uber</li><li>UBS</li><li>UniCredit</li><li>Unilever</li><li>Verizon</li><li>Vicks</li><li>Vodafone</li><li>Vuse</li><li>Zurich</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="experience" style="padding-top:0">
+    <div class="wrap">
+      <div class="sec">
+        <p class="cap">(Experience)</p>
+        <div class="body">
+          <div class="two">
+            <div class="job">
+              <p class="cap red">2020 – Present</p>
+              <h3 class="disp">AMP GmbH</h3>
+              <p class="cap">Senior Sound Designer &amp; Creative Producer</p>
+            </div>
+            <div class="job">
+              <p class="cap red">2014 – 2020</p>
+              <h3 class="disp">Studio Blu Rome</h3>
+              <p class="cap">Music supervisor</p>
+            </div>
+          </div>
+          <div class="skills">
+            <div><p class="cap">Creative Production</p><p>Great ideas need purposeful execution. I design intelligent, distinctive sound solutions built for clear, measurable impact.</p></div>
+            <div><p class="cap">Project Management</p><p>I steer creative momentum, not rigid rules, aligning teams to deliver complex projects on vision and on time.</p></div>
+            <div><p class="cap">Creative Strategy</p><p>Without strategy, great audio stays unheard. I build brand-aligned sonic identities that resonate, engage, and endure.</p></div>
+          </div>
+          <p class="cap dim tools">G-Suite, Miro, Figma, Monday, Asana, Slack, Logic Pro X, Final Cut Pro</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="education" style="padding-top:0">
+    <div class="wrap">
+      <div class="sec">
+        <p class="cap">(Education)</p>
+        <div class="body">
+          <ul class="edu-list">
+            <li><span class="cap red">2019</span><strong>Abbey Road Institute</strong><span class="cap">Music Production &amp; Sound Engineering</span></li>
+            <li><span class="cap red">2018</span><strong>Università di Roma Tre</strong><span class="cap">Media &amp; Communication Sciences</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="contact" id="contact" style="border-top:1px solid var(--line)">
+    <div class="wrap">
+      <p class="cap" style="margin-bottom:1.2rem">(Contact)</p>
+      <h2 class="disp">Let's work together</h2>
+      <ul class="contact-list">
+        <li><span class="cap dim">Email</span><span class="v" id="c-email">pellegrinidanielemaria@gmail.com</span><button class="copy" type="button" id="b-email" data-copy="c-email">Copy</button></li>
+        <li><span class="cap dim">Phone</span><span class="v" id="c-phone">+39 3400019678</span><button class="copy" type="button" id="b-phone" data-copy="c-phone">Copy</button></li>
+        <li><span class="cap dim">Based in</span><span class="v">Munich</span><span></span></li>
+      </ul>
+      <a class="mail cap" href="mailto:pellegrinidanielemaria@gmail.com">Write an email ↗</a>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span class="cap dim">© 2026 Daniele Pellegrini</span>
+    <span class="cap dim">Senior Sound Designer &amp; Creative Producer, Munich</span>
+  </div>
+</footer>
+
+<div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="Video player" hidden>
+  <button class="lb-x" type="button" id="lb-x">Close ✕</button>
+  <div class="lb-frame"><iframe id="lb-f" title="Vimeo video player" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe></div>
+  <a class="lb-out cap" id="lb-o" href="#" target="_blank" rel="noopener">Open on Vimeo ↗</a>
+</div>
+
+<script>
+(function () {
+  var rows = document.querySelectorAll('#index .item');
+  var filters = document.querySelectorAll('.filter');
+  var tot = document.getElementById('tot');
+  function pad(n) { return (n < 10 ? '0' : '') + n; }
+  function renumber() {
+    var i = 0;
+    rows.forEach(function (r) {
+      if (r.hidden) return;
+      i += 1;
+      r.querySelector('.n').textContent = '(' + pad(i) + ')';
+    });
+    tot.textContent = '(' + i + ')';
+  }
+  filters.forEach(function (b) {
+    b.addEventListener('click', function () {
+      var f = b.getAttribute('data-filter');
+      filters.forEach(function (o) { o.setAttribute('aria-pressed', o === b ? 'true' : 'false'); });
+      rows.forEach(function (r) { r.hidden = !(f === 'all' || r.getAttribute('data-kind') === f); });
+      renumber();
+    });
+  });
+
+  var lb = document.getElementById('lb'), lf = document.getElementById('lb-f'), lo = document.getElementById('lb-o'), lx = document.getElementById('lb-x');
+  var opener = null;
+  function openLb(a) {
+    var id = a.getAttribute('data-vimeo');
+    opener = a;
+    lf.src = 'https://player.vimeo.com/video/' + id + '?autoplay=1&title=0&byline=0&portrait=0&dnt=1';
+    lo.href = 'https://vimeo.com/' + id;
+    lb.hidden = false;
+    document.body.style.overflow = 'hidden';
+    lx.focus();
+  }
+  function closeLb() {
+    lb.hidden = true;
+    lf.src = 'about:blank';
+    document.body.style.overflow = '';
+    if (opener) opener.focus();
+  }
+  document.querySelectorAll('#index a').forEach(function (a) {
+    a.addEventListener('click', function (e) {
+      if (e.metaKey || e.ctrlKey || e.shiftKey || e.button !== 0) return;
+      e.preventDefault();
+      openLb(a);
+    });
+  });
+  lx.addEventListener('click', closeLb);
+  lb.addEventListener('click', function (e) { if (e.target === lb || e.target.classList.contains('lb-frame')) closeLb(); });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !lb.hidden) closeLb(); });
+  var arows = document.querySelectorAll('#awards-list .aw');
+  var afilters = document.querySelectorAll('.afilter');
+  var atot = document.getElementById('atot');
+  afilters.forEach(function (b) {
+    b.addEventListener('click', function () {
+      var f = b.getAttribute('data-afilter');
+      var c = 0;
+      afilters.forEach(function (o) { o.setAttribute('aria-pressed', o === b ? 'true' : 'false'); });
+      arows.forEach(function (r) {
+        var show = f === 'all' || r.getAttribute('data-body') === f;
+        r.hidden = !show;
+        if (show) c += 1;
+      });
+      atot.textContent = '(' + c + ')';
+    });
+  });
+
+
+/*SND*/
+  (function () {
+    var P = {"vodafone-vtv-startup":{"p":[5,8,12,44,37,28,40,39,58,80,60,72,100,67,62,53,53,44,47,45,45,48,54,58,56,54,51,48,44,41,36,32,28,23,20,20,19,20,20,19,19,18,18,16,15,14,12,10,8,6,5,5,5,5,5,5,5,5,5,5,5,5,5,5],"d":5.59,"l":"VTV start-up"},"vodafone-vtv-shutdown":{"p":[5,6,8,11,29,23,21,21,31,37,36,38,76,66,53,45,100,88,64,53,56,53,48,44,42,40,37,35,36,39,38,42,40,36,33,31,30,26,25,22,22,19,18,16,16,14,13,11,10,9,7,7,6,5,5,5,5,5,5,5,5,5,5,5],"d":4.07,"l":"VTV shutdown"},"vodafone-app-startup":{"p":[5,9,26,48,43,34,25,38,68,62,50,41,45,100,96,88,76,85,96,76,73,57,37,24,17,13,9,7,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5],"d":2.67,"l":"App start-up"},"vodafone-app-interaction":{"p":[5,5,5,5,5,39,64,68,65,52,57,100,91,88,80,73,68,71,68,77,74,85,82,93,78,74,61,58,47,44,37,34,29,26,23,20,17,15,14,12,11,9,8,7,7,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5],"d":1.29,"l":"App interaction"},"vodafone-scan":{"p":[5,5,5,5,5,10,22,34,50,63,74,84,93,98,100,98,94,85,74,66,63,57,52,51,48,44,42,41,36,34,32,29,26,25,23,21,20,18,16,15,14,13,12,11,10,9,9,8,7,7,6,5,5,5,5,5,5,5,5,5,5,5,5,5],"d":1.29,"l":"Scan"},"vodafone-scan-select":{"p":[6,18,31,42,57,72,86,94,100,92,84,74,71,74,78,84,88,85,83,69,61,52,44,40,34,30,26,26,26,26,24,22,19,20,20,17,14,12,11,10,10,11,12,13,12,13,13,12,11,11,9,8,7,5,5,5,5,5,5,5,5,5,5,5],"d":1.39,"l":"Scan select"},"vodafone-confirmation":{"p":[5,5,5,5,5,5,5,5,5,5,5,5,30,70,52,18,58,100,92,79,67,58,54,54,51,46,42,38,36,32,29,26,23,21,18,17,15,14,12,11,10,10,9,8,8,7,6,6,5,6,5,5,5,5,5,5,5,5,5,5,5,5,5,5],"d":1.71,"l":"Confirmation"},"vodafone-notification":{"p":[5,5,5,5,5,45,69,87,91,77,61,73,100,93,89,76,64,73,87,73,68,58,52,37,31,26,21,18,13,9,6,6,7,6,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5],"d":1.12,"l":"Notification"},"vodafone-failure":{"p":[5,5,5,5,5,5,5,5,5,5,5,5,5,5,12,39,67,88,100,89,75,69,58,50,45,40,36,34,30,30,25,26,22,22,21,19,17,13,11,8,8,7,7,7,6,6,6,5,6,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5],"d":0.96,"l":"Failure"},"docusign-send":{"p":[5,5,5,5,5,5,5,5,7,8,11,14,17,22,27,32,39,48,56,60,62,74,90,80,73,81,100,82,74,68,76,72,60,53,48,44,42,39,38,38,37,36,35,34,31,26,22,18,15,13,11,9,7,6,5,5,5,5,5,5,5,5,5,5],"d":1.33,"l":"Send"},"docusign-confirmation":{"p":[5,5,54,51,37,28,62,55,53,72,79,97,98,100,86,86,77,74,78,72,72,79,74,71,76,70,67,71,66,62,65,60,56,58,53,48,48,43,38,37,33,29,28,24,21,20,17,14,13,11,9,8,6,5,5,5,5,5,5,5,5,5,5,5],"d":1.96,"l":"Confirmation"},"docusign-notification":{"p":[5,5,5,83,94,81,78,74,70,68,67,63,57,100,97,75,90,77,65,75,66,100,86,82,97,65,78,78,53,70,61,44,59,47,40,48,34,33,38,26,28,30,19,24,23,14,20,17,12,16,12,10,13,9,9,9,5,6,5,5,5,5,5,5],"d":0.5,"l":"Notification"},"docusign-error":{"p":[5,5,83,89,80,74,69,66,85,100,89,82,77,73,64,58,56,78,100,87,81,78,75,71,65,61,53,50,49,43,39,36,33,30,28,26,22,21,20,17,16,15,13,12,12,11,9,9,8,8,7,7,6,5,5,5,5,5,5,5,5,5,5,5],"d":0.78,"l":"Error"},"google-lock":{"p":[5,5,5,5,5,5,5,5,5,5,5,5,5,7,11,14,21,23,33,39,52,95,100,95,93,94,97,89,80,74,84,56,48,42,40,37,31,29,33,81,21,14,11,58,8,8,7,7,6,6,5,6,5,5,5,5,5,5,5,5,5,5,5,5],"d":3.5,"l":"Lock"},"google-alert":{"p":[5,5,5,5,58,99,82,75,64,58,68,66,64,61,65,100,78,61,55,59,60,59,56,56,64,61,60,60,51,53,52,50,47,45,41,32,36,37,31,29,25,23,22,22,19,17,17,14,13,12,12,9,9,8,6,6,5,5,5,5,5,5,5,5],"d":0.83,"l":"Alert"},"google-report":{"p":[5,5,5,5,5,5,5,56,50,58,51,61,61,59,54,55,56,55,59,57,100,86,75,66,64,60,56,54,55,54,51,49,48,45,45,44,42,41,39,37,34,31,29,26,25,23,20,19,17,15,14,12,11,10,8,7,6,5,5,5,5,5,5,5],"d":1.13,"l":"Report"},"glo-start-search":{"p":[5,5,8,13,20,28,38,49,60,74,92,94,87,100,86,81,84,77,80,79,72,70,66,56,44,34,28,25,23,20,18,15,13,12,9,9,10,9,8,9,8,7,6,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5],"d":3.0,"l":"Start search"},"glo-end-search":{"p":[5,5,5,7,9,13,16,21,25,31,36,43,50,67,79,64,79,97,93,89,100,99,98,88,83,79,66,56,49,42,40,30,24,25,24,22,21,25,24,17,19,14,9,11,11,7,6,9,9,8,7,5,5,5,5,5,5,5,5,5,5,5,5,5],"d":2.5,"l":"End search"}};
+    var root = document.getElementById('sounds');
+    var cards = {};
+    [].forEach.call(root.querySelectorAll('.ps-card'), function (c) {
+      cards[c.getAttribute('data-card')] = { el: c, bars: c.querySelectorAll('.ps-foot .wf i'), now: c.querySelector('[data-now]'), msg: c.querySelector('[data-msg]'), chips: c.querySelectorAll('.chip') };
+    });
+    var IDLE = 'Tap the interface, or pick a sound';
+    var cache = {}, cur = null, raf = 0, timers = [];
+    function after(ms, fn) { var t = setTimeout(fn, ms); timers.push(t); return t; }
+    function clearTimers() { timers.forEach(clearTimeout); timers = []; }
+    function aud(slug) { if (!cache[slug]) { var a = new Audio('sounds/' + slug + '.wav'); a.preload = 'auto'; cache[slug] = a; } return cache[slug]; }
+    function cardOf(slug) { return cards[slug.split('-')[0]]; }
+    function idleFoot(c) {
+      c.bars.forEach(function (b) { b.style.height = '8%'; b.classList.remove('on'); });
+      c.now.textContent = IDLE;
+      c.chips.forEach(function (x) { x.classList.remove('playing'); });
+    }
+    function finish() { if (!cur) return; var c = cardOf(cur.slug); cancelAnimationFrame(raf); idleFoot(c); cur = null; }
+    function stopAll() { if (cur) { cur.a.onended = null; cur.a.pause(); cur.a.currentTime = 0; finish(); } }
+    function tick() {
+      if (!cur) return;
+      var c = cardOf(cur.slug), p = Math.min(1, cur.a.currentTime / (cur.a.duration || P[cur.slug].d)), n = Math.round(p * 64);
+      for (var i = 0; i < 64; i++) c.bars[i].classList.toggle('on', i < n);
+      c.now.textContent = P[cur.slug].l + '  ' + cur.a.currentTime.toFixed(1) + ' / ' + P[cur.slug].d.toFixed(1) + 's';
+      raf = requestAnimationFrame(tick);
+    }
+    function play(slug, onend) {
+      stopAll();
+      var a = aud(slug), c = cardOf(slug);
+      try { a.currentTime = 0; } catch (e) {}
+      cur = { slug: slug, a: a };
+      for (var k in cards) if (cards[k] !== c) idleFoot(cards[k]);
+      P[slug].p.forEach(function (v, i) { c.bars[i].style.height = Math.max(8, v) + '%'; });
+      c.chips.forEach(function (x) { x.classList.toggle('playing', x.getAttribute('data-snd') === slug); });
+      a.onended = function () { a.onended = null; finish(); if (onend) onend(); };
+      var pr = a.play(); if (pr && pr.catch) pr.catch(function () { finish(); });
+      cancelAnimationFrame(raf); raf = requestAnimationFrame(tick);
+    }
+    function say(card, text, bad) { var m = cards[card].msg; m.textContent = text; m.classList.toggle('bad', !!bad); }
+    function $(card, sel) { return cards[card].el.querySelector(sel); }
+    function r(card, name) { return cards[card].el.querySelector('[data-r="' + name + '"]'); }
+    function bump(el, cls) { el.classList.remove(cls); void el.offsetWidth; el.classList.add(cls); }
+
+    /* Docusign */
+    var doc = { signed: false, sent: false };
+    function steps(n) { [].forEach.call(r('docusign', 'steps').children, function (el, i) { el.classList.toggle('done', i < n); el.classList.toggle('on', i === n); }); }
+    function docReset() { doc.signed = doc.sent = false; $('docusign', '.sigfield').classList.remove('signed', 'err'); r('docusign', 'doc-status').textContent = 'Draft'; var b = r('docusign', 'doc-send'); b.textContent = 'Send'; b.disabled = false; $('docusign', '.bell').classList.remove('seen'); $('docusign', '.win').classList.remove('signed-s', 'sent-s'); r('docusign', 'doc-toast').classList.remove('show'); steps(1); say('docusign', ''); }
+    /* Google */
+    var g = { locked: false };
+    function banner(title, sub, bad, ms) { var b = r('google', 'g-banner'); r('google', 'g-btitle').textContent = title; r('google', 'g-bsub').textContent = sub; r('google', 'g-icon').textContent = bad ? '!' : '✓'; b.classList.add('show'); after(ms, function () { b.classList.remove('show'); }); }
+    function gReset() { g.locked = false; var b = $('google', '.lockbtn'); b.setAttribute('aria-pressed', 'false'); $('google', '.gdev').classList.remove('locked'); cards.google.el.classList.remove('threat'); r('google', 'g-banner').classList.remove('show'); r('google', 'g-state').textContent = 'Unlocked'; say('google', ''); }
+    /* Glo */
+    var glo = { state: 'idle', iv: 0 };
+    function sigBars(n) { [].forEach.call(r('glo', 'glo-sig').children, function (x, i) { x.classList.toggle('on', i < n); }); }
+    function gloReset() { clearInterval(glo.iv); glo.state = 'idle'; var s = cards.glo.el.querySelector('.glo'); s.classList.remove('scanning', 'found'); sigBars(0); r('glo', 'glo-dist').textContent = '\u2014'; r('glo', 'glo-btn').textContent = 'Find my device'; say('glo', ''); }
+    /* Vodafone */
+    var v = { on: false, open: false, scanned: false, picked: false };
+    function vReset() { v.on = v.open = v.scanned = v.picked = false; r('vodafone', 'tv').classList.remove('on', 'booting'); $('vodafone', '.power').setAttribute('aria-pressed', 'false'); var p = r('vodafone', 'phone'); p.classList.remove('open', 'scanning', 'scanned'); [].forEach.call(p.querySelectorAll('.pick'), function (x) { x.classList.remove('on'); }); r('vodafone', 'notif').classList.remove('show'); say('vodafone', ''); }
+    var resets = { docusign: docReset, google: gReset, glo: gloReset, vodafone: vReset };
+
+    var acts = {
+      'doc-bell': function () { play('docusign-notification'); $('docusign', '.bell').classList.add('seen'); var t = r('docusign', 'doc-toast'); t.classList.add('show'); after(2800, function () { t.classList.remove('show'); }); },
+      'doc-sign': function () { if (doc.signed) return; doc.signed = true; var f = $('docusign', '.sigfield'); f.classList.remove('err'); f.classList.add('signed'); play('docusign-confirmation'); r('docusign', 'doc-status').textContent = 'Signed'; $('docusign', '.win').classList.add('signed-s'); steps(2); say('docusign', 'Signature added'); },
+      'doc-send': function () {
+        if (doc.sent) return;
+        if (!doc.signed) { var f = $('docusign', '.sigfield'); f.classList.add('err'); bump(f, 'shake'); play('docusign-error'); say('docusign', 'Signature missing', true); after(1400, function () { f.classList.remove('err'); }); return; }
+        doc.sent = true; play('docusign-send'); var b = r('docusign', 'doc-send'); b.textContent = 'Sent \u2713'; b.disabled = true; r('docusign', 'doc-status').textContent = 'Sent'; $('docusign', '.win').classList.remove('signed-s'); $('docusign', '.win').classList.add('sent-s'); steps(3); say('docusign', 'Sent to 1 recipient');
+      },
+      'g-lock': function () {
+        var b = $('google', '.lockbtn'); g.locked = !g.locked; b.setAttribute('aria-pressed', g.locked ? 'true' : 'false'); $('google', '.gdev').classList.toggle('locked', g.locked);
+        r('google', 'g-state').textContent = g.locked ? 'Protected' : 'Unlocked';
+        if (g.locked) { play('google-lock'); say('google', 'Locked. Your data is safe.'); } else { say('google', 'Unlocked'); }
+      },
+      'g-alert': function () { var c = cards.google.el; c.classList.add('threat'); play('google-alert'); banner('Phishing link blocked', 'accounts-verify.co', true, 2600); r('google', 'g-state').textContent = 'Threat blocked'; after(2300, function () { c.classList.remove('threat'); r('google', 'g-state').textContent = g.locked ? 'Protected' : 'Unlocked'; say('google', ''); }); },
+      'g-report': function () { play('google-report'); banner('Report sent', 'Thanks for keeping others safe', false, 2400); },
+      'glo-find': function () {
+        var s = cards.glo.el.querySelector('.glo'), d = r('glo', 'glo-dist'), b = r('glo', 'glo-btn');
+        if (glo.state === 'scan') { stopAll(); gloReset(); return; }
+        gloReset(); glo.state = 'scan'; s.classList.add('scanning'); b.textContent = 'Stop'; d.textContent = 'Searching\u2026'; say('glo', 'Listening for your device');
+        var dist = [12, 9, 6, 4], i = 0; glo.iv = setInterval(function () { if (i < dist.length) { d.textContent = dist[i++] + ' m'; sigBars(i); } }, 700);
+        play('glo-start-search', function () {
+          clearInterval(glo.iv); glo.state = 'found'; s.classList.remove('scanning'); s.classList.add('found'); d.textContent = '2 m'; sigBars(4); b.textContent = 'Search again'; say('glo', 'Found it');
+          play('glo-end-search');
+        });
+      },
+      'v-power': function () {
+        var tv = r('vodafone', 'tv'), p = $('vodafone', '.power');
+        if (!v.on) { v.on = true; tv.classList.add('booting'); tv.classList.add('on'); p.setAttribute('aria-pressed', 'true'); play('vodafone-vtv-startup'); say('vodafone', 'Starting TV'); after(1500, function () { tv.classList.remove('booting'); say('vodafone', ''); }); }
+        else { v.on = false; tv.classList.remove('on', 'booting'); p.setAttribute('aria-pressed', 'false'); play('vodafone-vtv-shutdown'); say('vodafone', 'Goodbye'); after(1800, function () { say('vodafone', ''); }); }
+      },
+      'v-open': function () { v.open = true; r('vodafone', 'phone').classList.add('open'); play('vodafone-app-startup'); },
+      'v-tab': function (el) { [].forEach.call(el.parentNode.children, function (t) { t.classList.toggle('on', t === el); }); play('vodafone-app-interaction'); },
+      'v-bell': function () { var n = r('vodafone', 'notif'); n.classList.add('show'); play('vodafone-notification'); after(2600, function () { n.classList.remove('show'); }); },
+      'v-scan': function () { var p = r('vodafone', 'phone'); if (p.classList.contains('scanning')) return; p.classList.remove('scanned'); p.classList.add('scanning'); v.picked = false; [].forEach.call(p.querySelectorAll('.pick'), function (x) { x.classList.remove('on'); }); play('vodafone-scan', function () { p.classList.remove('scanning'); p.classList.add('scanned'); v.scanned = true; say('vodafone', '3 items found'); }); },
+      'v-pick': function (el) { [].forEach.call(el.parentNode.children, function (x) { x.classList.toggle('on', x === el); }); v.picked = true; play('vodafone-scan-select'); },
+      'v-confirm': function (el) {
+        if (!v.picked) { bump(el, 'shake'); play('vodafone-failure'); say('vodafone', 'Nothing selected. Scan and pick one.', true); return; }
+        play('vodafone-confirmation'); say('vodafone', 'Done \u2713 Your add-on is active');
+      },
+      'reset': function (el) { var id = el.closest('.ps-card').getAttribute('data-card'); if (cur && cardOf(cur.slug) === cards[id]) stopAll(); clearTimers(); resets[id](); }
+    };
+    root.addEventListener('click', function (e) {
+      var s = e.target.closest('[data-snd]');
+      if (s) { play(s.getAttribute('data-snd')); return; }
+      var a = e.target.closest('[data-act]');
+      if (a && acts[a.getAttribute('data-act')]) acts[a.getAttribute('data-act')](a);
+    });
+    [].forEach.call(root.querySelectorAll('.ps-card'), function (c) {
+      c.addEventListener('pointerenter', function () { [].forEach.call(c.querySelectorAll('[data-snd]'), function (x) { aud(x.getAttribute('data-snd')); }); }, { once: true });
+    });
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape') stopAll(); });
+  })();
+/*/SND*/
+  function flash(btn, text) {
+    var old = btn.textContent;
+    btn.textContent = text;
+    setTimeout(function () { btn.textContent = old; }, 1600);
+  }
+  document.querySelectorAll('[data-copy]').forEach(function (b) {
+    b.addEventListener('click', function () {
+      var el = document.getElementById(b.getAttribute('data-copy'));
+      var txt = el.textContent.trim();
+      var fallback = function () {
+        var r = document.createRange(); r.selectNodeContents(el);
+        var s = window.getSelection(); s.removeAllRanges(); s.addRange(r);
+        flash(b, 'Selected');
+      };
+      try {
+        navigator.clipboard.writeText(txt).then(function () { flash(b, 'Copied'); }, fallback);
+      } catch (err) { fallback(); }
+    });
+  });
+})();
+</script>
+
+</body>
+</html>
